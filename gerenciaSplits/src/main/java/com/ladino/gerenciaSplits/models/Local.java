@@ -13,6 +13,7 @@ public class Local {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID LocaiId;
 
+    @Column(nullable = false)
     private String nomeLocal;
 
     @OneToMany(mappedBy = "local")

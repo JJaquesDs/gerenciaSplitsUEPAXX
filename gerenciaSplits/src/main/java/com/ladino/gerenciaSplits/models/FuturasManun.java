@@ -16,7 +16,7 @@ public class FuturasManun {
     private LocalDate dataProxManun;
 
     @OneToOne
-    @JoinColumn(name = "split_id")
+    @JoinColumn(name = "split_id", nullable = false)
     private Splits split;
 
     public FuturasManun() {

@@ -14,19 +14,23 @@ public class Splits {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID SplitId;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String rp;
 
+    @Column(nullable = false)
     private String marca;
 
+    @Column(nullable = false)
     private String capacidadeBtu;
 
+    @Column(nullable = false)
     private LocalDate dataEntrada;
 
+    @Column(nullable = false)
     private String periodoManMes;
 
     @ManyToOne
-    @JoinColumn(name = "local_id")
+    @JoinColumn(name = "local_id", nullable = false)
     private Local local;
 
     @OneToMany(mappedBy = "split")

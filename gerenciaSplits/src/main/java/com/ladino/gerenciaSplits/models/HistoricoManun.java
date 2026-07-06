@@ -14,6 +14,7 @@ public class HistoricoManun {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID historicoManunId;
 
+    @Column(nullable = false)
     private LocalDate dataManun;
 
     //Transformando Enum em tipo String
@@ -27,10 +28,11 @@ public class HistoricoManun {
     @Column(nullable = false)
     private String servicoRealizado;
 
+    @Column(nullable = true)
     private String obersavacoes;
 
     @ManyToOne
-    @JoinColumn(name = "split_id")
+    @JoinColumn(name = "split_id", nullable = false)
     private Splits split;
 
     // Construtores
