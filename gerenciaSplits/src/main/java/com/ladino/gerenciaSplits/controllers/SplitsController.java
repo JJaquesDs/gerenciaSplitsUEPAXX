@@ -5,6 +5,7 @@ import com.ladino.gerenciaSplits.dtos.responses.SplitResponse;
 import com.ladino.gerenciaSplits.services.SplitsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,13 +30,13 @@ public class SplitsController {
 
     /**
      * Rota para criar Splits
-     * **/
+     **/
     @PostMapping("/criar")
     @Operation(
             summary = "Criar Split",
             description = "Rota para lidar com requisições POST de criar Splits"
     )
-    public SplitResponse criarSplit(@RequestBody SplitRequest splitRequest){
+    public SplitResponse criarSplit(@Valid @RequestBody SplitRequest splitRequest){
         return splitsService.criarSplit(splitRequest);
     }
 
@@ -59,5 +60,16 @@ public class SplitsController {
     public SplitResponse atualizarSplit(@PathVariable UUID uuid,
                                         @RequestBody SplitRequest splitRequest){
         return splitsService.atualizarSplitPorId(uuid, splitRequest);
+    }
+
+
+    @DeleteMapping("/deletar/{uuid}")
+    @Operation(
+            summary = "Deletar um split por UUID",
+            description = "Rota para lidar com requisição DELETE de splits por UUID"
+    )
+    public void deletarSplit(@PathVariable UUID uuid){
+
+        splitsService.deletarSplitPorId(uuid);
     }
 }

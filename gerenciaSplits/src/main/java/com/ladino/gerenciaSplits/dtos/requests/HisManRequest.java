@@ -2,16 +2,17 @@ package com.ladino.gerenciaSplits.dtos.requests;
 
 import com.ladino.gerenciaSplits.models.Enums.TipoManun;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 public record HisManRequest(
 
-        @NotBlank
+        @NotNull
         LocalDate dataManun,
 
-        @NotBlank
+        @NotNull
         TipoManun tipoManun,
 
         @NotBlank
@@ -21,7 +22,7 @@ public record HisManRequest(
         String servicoRealizado,
         String observacoes,
 
-        @NotBlank(message = "O split é obrigatório")
+        @NotNull(message = "O split é obrigatório")
         UUID splitId
 
 ) {

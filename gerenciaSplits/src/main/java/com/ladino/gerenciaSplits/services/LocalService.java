@@ -87,6 +87,12 @@ public class LocalService {
     //Deletar Local
     public void deletarLocalPorId(UUID uuid){
 
+        Local local = buscarLocalExistente(uuid);
+
+        if (local == null){
+            throw new RuntimeException("Local nao encontrado");
+        }
+
         localRepository.deleteById(uuid);
     }
 }

@@ -6,6 +6,7 @@ import com.ladino.gerenciaSplits.models.Local;
 import com.ladino.gerenciaSplits.services.LocalService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class LocalController {
     @Operation(
             summary = "Criar Locais",
             description = "Rota para lidar com requisições POST de criar Locais")
-    public Local criarLocal(@RequestBody LocalRequest localRequest){
+    public Local criarLocal(@Valid @RequestBody LocalRequest localRequest){
         return localService.criarLocal(localRequest);
     }
 

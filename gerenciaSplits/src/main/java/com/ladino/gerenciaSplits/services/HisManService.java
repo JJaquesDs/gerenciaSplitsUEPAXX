@@ -35,6 +35,14 @@ public class HisManService {
         this.hisManMapper = hisManMapper;
     }
 
+    public HistoricoManun buscarHistoricoMan(UUID uuid){
+
+        Optional<HistoricoManun> historicoManun = hisManRepository.findById(uuid);
+
+        return historicoManun.orElse(null);
+
+    }
+
 
     /**
      * Service para criar um Histórico de Manutenção de Splits
@@ -86,6 +94,23 @@ public class HisManService {
     public Optional<HistoricoManun> listarHisManPorUuid(UUID uuid){
 
         return hisManRepository.findById(uuid);
+
+    }
+
+
+    /**
+     * Service para deletar um histórico de manutenção
+     * **/
+    public void hisManDelete(UUID uuid){
+
+        HistoricoManun hisManRequest = buscarHistoricoMan(uuid);
+
+        if (hisManRequest == null){
+            throw new RuntimeException("Histórico não encontrado");
+        }
+
+
+        hisManRepository.deleteById(uuid);
 
     }
 

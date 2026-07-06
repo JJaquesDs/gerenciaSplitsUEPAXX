@@ -6,6 +6,7 @@ import com.ladino.gerenciaSplits.models.HistoricoManun;
 import com.ladino.gerenciaSplits.services.HisManService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class HisManController {
             summary = "Criar históricos de manutenções",
             description = "Rota para lidar com requisições POST de criar Históricos de Manutenções"
     )
-    public HisManResponse criarHisMan(@RequestBody HisManRequest hisManRequest){
+    public HisManResponse criarHisMan( @Valid @RequestBody HisManRequest hisManRequest){
         return hisManService.criarHisMan(hisManRequest);
     }
 
@@ -53,9 +54,18 @@ public class HisManController {
             summary = "Listar históricos de manutenções por UUID",
             description = "Rota para lidar com requisições GET de listar históricos de manutenção por UUID"
     )
-    public Optional<HistoricoManun> HisManPorUUID(@PathVariable UUID uuid,
-                                                  @RequestBody HisManRequest hisManRequest){
+    public Optional<HistoricoManun> HisManPorUUID(@PathVariable UUID uuid){
         return hisManService.listarHisManPorUuid(uuid);
+    }
+
+    @DeleteMapping("/deletar/{uuid}")
+    @Operation(
+            summary = "Deletar históricos de manutenções por UUID",
+            description = "Rota para lidar com requisições DELETE de históricos de manutenção por UUID"
+    )
+    public void deleteHisMan(@PathVariable("uuid") UUID uuid){
+
+        hisManService.hisManDelete(uuid);
     }
 
 
