@@ -12,9 +12,11 @@ public interface SplitMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateFromRequest(SplitRequest splitRequest, @MappingTarget Splits split);
 
+
     //Transformando local Classe para String nome do local apenas
     @Mapping(target = "local", source = "local.nomeLocal")
     SplitResponse toResponse(Splits split);
+
 
     //Ignorando local pq mapper não pode transformar UUID e Ids no geral em um objeto inteiro (Service faz isso)
     @Mapping(target = "local", ignore = true)
@@ -22,6 +24,7 @@ public interface SplitMapper {
     @Mapping(target = "marca", source = "marca", qualifiedByName = "upper")
     @Mapping(target = "capacidadeBtu", source = "capacidadeBtu", qualifiedByName = "upper")
     Splits toEntity(SplitRequest splitRequest);
+
 
     //Levando todos com nome "upper" para upper case
     @Named("upper")
