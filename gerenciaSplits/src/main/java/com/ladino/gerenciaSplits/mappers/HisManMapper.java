@@ -11,8 +11,8 @@ import java.util.Optional;
 public interface HisManMapper {
 
 
-    //Transformando split Objeto inteiro em apenas registro patrimonial para responses da API
-    @Mapping(target = "splitId", source = "split.rp")
+    //Transformando split Objeto inteiro em apenas splitId para responses da API
+    @Mapping(target = "splitId", source = "split.splitId")
     HisManResponse toResponse(HistoricoManun historicoManun);
 
 

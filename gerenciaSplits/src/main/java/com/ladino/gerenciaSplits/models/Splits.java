@@ -78,17 +78,16 @@ public class Splits {
         return marca;
     }
 
-    //padronizando para uppercase
     public void setMarca(String marca) {
-
+        this.marca = marca;
     }
 
     public String getCapacidadeBtu() {
         return capacidadeBtu;
     }
 
-    //Padronizando para uppercase
     public void setCapacidadeBtu(String capacidadeBtu) {
+        this.capacidadeBtu = capacidadeBtu;
     }
 
     public LocalDate getDataEntrada() {

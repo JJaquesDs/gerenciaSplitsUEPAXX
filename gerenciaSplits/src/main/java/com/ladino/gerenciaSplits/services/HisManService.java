@@ -51,7 +51,7 @@ public class HisManService {
         HistoricoManun historicoManun = hisManMapper.toEntity(hisManRequest);
 
         //setando o Split id com base em id existente
-        historicoManun.setSplit(split.getSplitId());
+        historicoManun.setSplit(split);
 
         hisManRepository.save(historicoManun);
 

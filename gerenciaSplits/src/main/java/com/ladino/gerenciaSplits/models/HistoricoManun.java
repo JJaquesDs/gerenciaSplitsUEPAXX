@@ -37,22 +37,39 @@ public class HistoricoManun {
     public HistoricoManun() {
     }
 
-    public HistoricoManun(
-            UUID historicoManunId,
-            LocalDate dataMaun,
-            TipoManun tipoManun,
-            String tecnicoResponsavel,
-            String servicoRealizado,
-            String obersavacoes,
-            UUID split
-    ) {
+//    public HistoricoManun(
+//            UUID historicoManunId,
+//            LocalDate dataMaun,
+//            TipoManun tipoManun,
+//            String tecnicoResponsavel,
+//            String servicoRealizado,
+//            String obersavacoes,
+//            UUID split
+//    ) {
+//        this.historicoManunId = historicoManunId;
+//        this.dataManun = dataMaun;
+//        this.tipoManun = tipoManun;
+//        this.tecnicoResponsavel = tecnicoResponsavel;
+//        this.servicoRealizado = servicoRealizado;
+//        this.obersavacoes = obersavacoes;
+//        split = split;
+//    }
+
+
+    public HistoricoManun(UUID historicoManunId,
+                          LocalDate dataManun,
+                          TipoManun tipoManun,
+                          String tecnicoResponsavel,
+                          String servicoRealizado,
+                          String obersavacoes,
+                          Splits split) {
         this.historicoManunId = historicoManunId;
-        this.dataManun = dataMaun;
+        this.dataManun = dataManun;
         this.tipoManun = tipoManun;
         this.tecnicoResponsavel = tecnicoResponsavel;
         this.servicoRealizado = servicoRealizado;
         this.obersavacoes = obersavacoes;
-        split = split;
+        this.split = split;
     }
 
     public UUID getHistoricoManunId() {
@@ -71,7 +88,7 @@ public class HistoricoManun {
         this.dataManun = dataManun;
     }
 
-    public Enum<TipoManun> getTipoManun() {
+    public TipoManun getTipoManun() {
         return tipoManun;
     }
 
@@ -107,7 +124,7 @@ public class HistoricoManun {
         return split;
     }
 
-    public void setSplit(UUID split) {
-        split = split;
+    public void setSplit(Splits split) {
+        this.split = split;
     }
 }

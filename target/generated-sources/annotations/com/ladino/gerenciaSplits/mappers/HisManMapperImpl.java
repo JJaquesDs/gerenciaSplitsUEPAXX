@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-07-06T16:32:06-0300",
+    date = "2026-07-06T17:11:06-0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 22 (Oracle Corporation)"
 )
 @Component
@@ -27,22 +27,20 @@ public class HisManMapperImpl implements HisManMapper {
         UUID splitId = null;
         UUID historicoManunId = null;
         LocalDate dataManun = null;
+        TipoManun tipoManun = null;
         String tecnicoResponsavel = null;
         String servicoRealizado = null;
 
-        String rp = historicoManunSplitRp( historicoManun );
-        if ( rp != null ) {
-            splitId = UUID.fromString( rp );
-        }
+        splitId = historicoManunSplitSplitId( historicoManun );
         historicoManunId = historicoManun.getHistoricoManunId();
         dataManun = historicoManun.getDataManun();
+        tipoManun = historicoManun.getTipoManun();
         tecnicoResponsavel = historicoManun.getTecnicoResponsavel();
         servicoRealizado = historicoManun.getServicoRealizado();
 
-        Enum<TipoManun> tipoManunEnum = null;
         String observacoes = null;
 
-        HisManResponse hisManResponse = new HisManResponse( historicoManunId, dataManun, tipoManunEnum, tecnicoResponsavel, servicoRealizado, observacoes, splitId );
+        HisManResponse hisManResponse = new HisManResponse( historicoManunId, dataManun, tipoManun, tecnicoResponsavel, servicoRealizado, observacoes, splitId );
 
         return hisManResponse;
     }
@@ -56,6 +54,7 @@ public class HisManMapperImpl implements HisManMapper {
         HistoricoManun historicoManun = new HistoricoManun();
 
         historicoManun.setDataManun( hisManRequest.dataManun() );
+        historicoManun.setTipoManun( hisManRequest.tipoManun() );
         historicoManun.setTecnicoResponsavel( hisManRequest.tecnicoResponsavel() );
         historicoManun.setServicoRealizado( hisManRequest.servicoRealizado() );
 
@@ -71,6 +70,9 @@ public class HisManMapperImpl implements HisManMapper {
         if ( hisManRequest.dataManun() != null ) {
             historicoManun.setDataManun( hisManRequest.dataManun() );
         }
+        if ( hisManRequest.tipoManun() != null ) {
+            historicoManun.setTipoManun( hisManRequest.tipoManun() );
+        }
         if ( hisManRequest.tecnicoResponsavel() != null ) {
             historicoManun.setTecnicoResponsavel( hisManRequest.tecnicoResponsavel() );
         }
@@ -79,11 +81,11 @@ public class HisManMapperImpl implements HisManMapper {
         }
     }
 
-    private String historicoManunSplitRp(HistoricoManun historicoManun) {
+    private UUID historicoManunSplitSplitId(HistoricoManun historicoManun) {
         Splits split = historicoManun.getSplit();
         if ( split == null ) {
             return null;
         }
-        return split.getRp();
+        return split.getSplitId();
     }
 }
