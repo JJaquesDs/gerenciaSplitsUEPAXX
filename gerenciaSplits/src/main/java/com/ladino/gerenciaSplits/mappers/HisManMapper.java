@@ -12,7 +12,7 @@ public interface HisManMapper {
 
 
     //Transformando split Objeto inteiro em apenas registro patrimonial para responses da API
-    @Mapping(target = "split", source = "split.rp")
+    @Mapping(target = "splitId", source = "split.rp")
     HisManResponse toResponse(HistoricoManun historicoManun);
 
 

@@ -16,8 +16,10 @@ public class HistoricoManun {
 
     private LocalDate dataManun;
 
-
-    private Enum<TipoManun> tipoManun;
+    //Transformando Enum em tipo String
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TipoManun tipoManun;
 
     @Column(nullable = false)
     private String tecnicoResponsavel;
@@ -38,7 +40,7 @@ public class HistoricoManun {
     public HistoricoManun(
             UUID historicoManunId,
             LocalDate dataMaun,
-            Enum<TipoManun> tipoManun,
+            TipoManun tipoManun,
             String tecnicoResponsavel,
             String servicoRealizado,
             String obersavacoes,
@@ -73,7 +75,7 @@ public class HistoricoManun {
         return tipoManun;
     }
 
-    public void setTipoManun(Enum<TipoManun> tipoManun) {
+    public void setTipoManun(TipoManun tipoManun) {
         this.tipoManun = tipoManun;
     }
 

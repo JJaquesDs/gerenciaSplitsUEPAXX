@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public record HisManRequest(
         LocalDate dataManun,
-        Enum<TipoManun> tipoManunEnum,
+        TipoManun tipoManun,
         String tecnicoResponsavel,
         String servicoRealizado,
         String observacoes,

@@ -8,7 +8,7 @@ import java.util.UUID;
 public record HisManResponse(
         UUID historicoManunId,
         LocalDate dataManun,
-        Enum<TipoManun> tipoManunEnum,
+        TipoManun tipoManun,
         String tecnicoResponsavel,
         String servicoRealizado,
         String observacoes,
