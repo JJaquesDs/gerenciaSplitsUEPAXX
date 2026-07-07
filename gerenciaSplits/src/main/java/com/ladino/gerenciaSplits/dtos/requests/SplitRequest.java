@@ -1,5 +1,6 @@
 package com.ladino.gerenciaSplits.dtos.requests;
 
+import com.ladino.gerenciaSplits.models.Enums.PeriodoManutencao;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -20,8 +21,8 @@ public record SplitRequest(
         @NotNull
         LocalDate dataEntrada,
 
-        @NotBlank
-        String periodoManMes,
+        @NotNull
+        PeriodoManutencao periodoManMes,
 
         @NotNull(message = "O local deve ser informado")
         UUID localId

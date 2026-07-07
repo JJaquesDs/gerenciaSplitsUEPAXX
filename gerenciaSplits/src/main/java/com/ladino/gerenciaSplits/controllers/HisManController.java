@@ -2,7 +2,7 @@ package com.ladino.gerenciaSplits.controllers;
 
 import com.ladino.gerenciaSplits.dtos.requests.HisManRequest;
 import com.ladino.gerenciaSplits.dtos.responses.HisManResponse;
-import com.ladino.gerenciaSplits.models.HistoricoManun;
+import com.ladino.gerenciaSplits.models.HistoricoManu;
 import com.ladino.gerenciaSplits.services.HisManService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -54,7 +54,7 @@ public class HisManController {
             summary = "Listar históricos de manutenções por UUID",
             description = "Rota para lidar com requisições GET de listar históricos de manutenção por UUID"
     )
-    public Optional<HistoricoManun> HisManPorUUID(@PathVariable UUID uuid){
+    public Optional<HistoricoManu> HisManPorUUID(@PathVariable UUID uuid){
         return hisManService.listarHisManPorUuid(uuid);
     }
 

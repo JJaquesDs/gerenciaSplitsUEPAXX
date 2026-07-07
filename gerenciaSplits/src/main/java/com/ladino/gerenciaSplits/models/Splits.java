@@ -1,5 +1,6 @@
 package com.ladino.gerenciaSplits.models;
 
+import com.ladino.gerenciaSplits.models.Enums.PeriodoManutencao;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -26,15 +27,16 @@ public class Splits {
     @Column(nullable = false)
     private LocalDate dataEntrada;
 
+    @Enumerated(EnumType.STRING)  // Tipo string para enum
     @Column(nullable = false)
-    private String periodoManMes;
+    private PeriodoManutencao periodoManMes;
 
     @ManyToOne
     @JoinColumn(name = "local_id", nullable = false)
     private Local local;
 
     @OneToMany(mappedBy = "split")
-    private List<HistoricoManun> historicoManuns;
+    private List<HistoricoManu> historicoManu;
 
     // Construtor sem Argumentos
     public Splits() {
@@ -47,9 +49,9 @@ public class Splits {
             String marca,
             String capacidadeBtu,
             LocalDate dataEntrada,
-            String periodoManMes,
+            PeriodoManutencao periodoManMes,
             Local local,
-            List<HistoricoManun> historicoManuns
+            List<HistoricoManu> historicoManu
     ) {
         SplitId = splitId;
         this.rp = rp;
@@ -58,7 +60,7 @@ public class Splits {
         this.dataEntrada = dataEntrada;
         this.periodoManMes = periodoManMes;
         this.local = local;
-        this.historicoManuns = historicoManuns;
+        this.historicoManu = historicoManu;
     }
 
     // Getters e Setters
@@ -102,11 +104,11 @@ public class Splits {
         this.dataEntrada = dataEntrada;
     }
 
-    public String getPeriodoManMes() {
+    public PeriodoManutencao getPeriodoManMes() {
         return periodoManMes;
     }
 
-    public void setPeriodoManMes(String periodoManMes) {
+    public void setPeriodoManMes(PeriodoManutencao periodoManMes) {
         this.periodoManMes = periodoManMes;
     }
 
@@ -118,11 +120,11 @@ public class Splits {
         this.local = local;
     }
 
-    public List<HistoricoManun> getHistoricoManuns() {
-        return historicoManuns;
+    public List<HistoricoManu> getHistoricoManuns() {
+        return historicoManu;
     }
 
-    public void setHistoricoManuns(List<HistoricoManun> historicoManuns) {
-        this.historicoManuns = historicoManuns;
+    public void setHistoricoManuns(List<HistoricoManu> historicoManu) {
+        this.historicoManu = historicoManu;
     }
 }

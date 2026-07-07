@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "Faturas_manun")
-public class FuturasManun {
+public class FuturasManu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -19,10 +19,10 @@ public class FuturasManun {
     @JoinColumn(name = "split_id", nullable = false)
     private Splits split;
 
-    public FuturasManun() {
+    public FuturasManu() {
     }
 
-    public FuturasManun(
+    public FuturasManu(
             UUID futurasManunId,
             LocalDate dataProxManun,
             Splits split

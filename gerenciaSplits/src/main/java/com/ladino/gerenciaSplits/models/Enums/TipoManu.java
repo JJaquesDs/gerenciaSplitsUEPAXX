@@ -1,6 +1,6 @@
 package com.ladino.gerenciaSplits.models.Enums;
 
-public enum TipoManun {
+public enum TipoManu {
 
     INSTALACAO("Instalação"),
     DESINSTALACAO("Desinstalação"),
@@ -11,7 +11,7 @@ public enum TipoManun {
     private final String tipoManuntencao;
 
     // Construtor
-    TipoManun(String tipoManuntencao) {
+    TipoManu(String tipoManuntencao) {
         this.tipoManuntencao = tipoManuntencao;
     }
 

@@ -1,6 +1,6 @@
 package com.ladino.gerenciaSplits.dtos.requests;
 
-import com.ladino.gerenciaSplits.models.Enums.TipoManun;
+import com.ladino.gerenciaSplits.models.Enums.TipoManu;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -13,7 +13,7 @@ public record HisManRequest(
         LocalDate dataManun,
 
         @NotNull
-        TipoManun tipoManun,
+        TipoManu tipoManu,
 
         @NotBlank
         String tecnicoResponsavel,

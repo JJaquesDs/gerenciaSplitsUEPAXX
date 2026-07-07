@@ -1,5 +1,7 @@
 package com.ladino.gerenciaSplits.dtos.responses;
 
+import com.ladino.gerenciaSplits.models.Enums.PeriodoManutencao;
+
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -9,7 +11,7 @@ public record SplitResponse(
         String marca,
         String capacidadeBtu,
         LocalDate dataEntrada,
-        String periodoManMes,
+        PeriodoManutencao periodoManMes,
         String local
 ) {
 }

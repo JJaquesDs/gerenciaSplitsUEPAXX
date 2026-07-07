@@ -3,7 +3,7 @@ package com.ladino.gerenciaSplits.services;
 import com.ladino.gerenciaSplits.dtos.requests.HisManRequest;
 import com.ladino.gerenciaSplits.dtos.responses.HisManResponse;
 import com.ladino.gerenciaSplits.mappers.HisManMapper;
-import com.ladino.gerenciaSplits.models.HistoricoManun;
+import com.ladino.gerenciaSplits.models.HistoricoManu;
 import com.ladino.gerenciaSplits.models.Splits;
 import com.ladino.gerenciaSplits.repository.HistoricoManunRepository;
 import org.springframework.stereotype.Service;
@@ -35,9 +35,9 @@ public class HisManService {
         this.hisManMapper = hisManMapper;
     }
 
-    public HistoricoManun buscarHistoricoMan(UUID uuid){
+    public HistoricoManu buscarHistoricoMan(UUID uuid){
 
-        Optional<HistoricoManun> historicoManun = hisManRepository.findById(uuid);
+        Optional<HistoricoManu> historicoManun = hisManRepository.findById(uuid);
 
         return historicoManun.orElse(null);
 
@@ -56,16 +56,16 @@ public class HisManService {
         }
 
         //Usando mapper para criar a entidade com base no dto request
-        HistoricoManun historicoManun = hisManMapper.toEntity(hisManRequest);
+        HistoricoManu historicoManu = hisManMapper.toEntity(hisManRequest);
 
         //setando o Split id com base em id existente
-        historicoManun.setSplit(split);
+        historicoManu.setSplit(split);
 
-        hisManRepository.save(historicoManun);
+        hisManRepository.save(historicoManu);
 
 
         //retornando apenas o mapper para responses(evita json infinitos)
-        return hisManMapper.toResponse(historicoManun);
+        return hisManMapper.toResponse(historicoManu);
 
     }
 
@@ -91,7 +91,7 @@ public class HisManService {
     /**
      * Service de Listar históricos de manutenções por UUID
      * **/
-    public Optional<HistoricoManun> listarHisManPorUuid(UUID uuid){
+    public Optional<HistoricoManu> listarHisManPorUuid(UUID uuid){
 
         return hisManRepository.findById(uuid);
 
@@ -103,7 +103,7 @@ public class HisManService {
      * **/
     public void hisManDelete(UUID uuid){
 
-        HistoricoManun hisManRequest = buscarHistoricoMan(uuid);
+        HistoricoManu hisManRequest = buscarHistoricoMan(uuid);
 
         if (hisManRequest == null){
             throw new RuntimeException("Histórico não encontrado");

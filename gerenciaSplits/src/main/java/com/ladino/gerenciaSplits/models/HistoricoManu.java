@@ -1,6 +1,6 @@
 package com.ladino.gerenciaSplits.models;
 
-import com.ladino.gerenciaSplits.models.Enums.TipoManun;
+import com.ladino.gerenciaSplits.models.Enums.TipoManu;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "Historico_manun")
-public class HistoricoManun {
+public class HistoricoManu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -20,7 +20,7 @@ public class HistoricoManun {
     //Transformando Enum em tipo String
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private TipoManun tipoManun;
+    private TipoManu tipoManu;
 
     @Column(nullable = false)
     private String tecnicoResponsavel;
@@ -36,38 +36,20 @@ public class HistoricoManun {
     private Splits split;
 
     // Construtores
-    public HistoricoManun() {
+    public HistoricoManu() {
     }
 
-//    public HistoricoManun(
-//            UUID historicoManunId,
-//            LocalDate dataMaun,
-//            TipoManun tipoManun,
-//            String tecnicoResponsavel,
-//            String servicoRealizado,
-//            String obersavacoes,
-//            UUID split
-//    ) {
-//        this.historicoManunId = historicoManunId;
-//        this.dataManun = dataMaun;
-//        this.tipoManun = tipoManun;
-//        this.tecnicoResponsavel = tecnicoResponsavel;
-//        this.servicoRealizado = servicoRealizado;
-//        this.obersavacoes = obersavacoes;
-//        split = split;
-//    }
 
-
-    public HistoricoManun(UUID historicoManunId,
-                          LocalDate dataManun,
-                          TipoManun tipoManun,
-                          String tecnicoResponsavel,
-                          String servicoRealizado,
-                          String obersavacoes,
-                          Splits split) {
+    public HistoricoManu(UUID historicoManunId,
+                         LocalDate dataManun,
+                         TipoManu tipoManu,
+                         String tecnicoResponsavel,
+                         String servicoRealizado,
+                         String obersavacoes,
+                         Splits split) {
         this.historicoManunId = historicoManunId;
         this.dataManun = dataManun;
-        this.tipoManun = tipoManun;
+        this.tipoManu = tipoManu;
         this.tecnicoResponsavel = tecnicoResponsavel;
         this.servicoRealizado = servicoRealizado;
         this.obersavacoes = obersavacoes;
@@ -90,12 +72,12 @@ public class HistoricoManun {
         this.dataManun = dataManun;
     }
 
-    public TipoManun getTipoManun() {
-        return tipoManun;
+    public TipoManu getTipoManun() {
+        return tipoManu;
     }
 
-    public void setTipoManun(TipoManun tipoManun) {
-        this.tipoManun = tipoManun;
+    public void setTipoManun(TipoManu tipoManu) {
+        this.tipoManu = tipoManu;
     }
 
     public String getTecnicoResponsavel() {
