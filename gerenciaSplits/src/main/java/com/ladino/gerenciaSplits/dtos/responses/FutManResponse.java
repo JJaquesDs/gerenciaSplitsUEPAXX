@@ -11,7 +11,8 @@ public record FutManResponse(
 
         UUID futurasManunId,
         LocalDate dataProxManu,
-        UUID splitId
+        String rp,
+        String local
 
 ) {
 }

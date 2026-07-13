@@ -9,8 +9,9 @@ import org.mapstruct.*;
 public interface HisManMapper {
 
 
-    //Transformando split Objeto inteiro em apenas splitId para responses da API
-    @Mapping(target = "splitId", source = "split.splitId")
+    //pegando rp e nome do local para responses
+    @Mapping(target = "rp", source = "split.rp")
+    @Mapping(target = "local", source = "split.local.nomeLocal")
     HisManResponse toResponse(HistoricoManu historicoManu);
 
 

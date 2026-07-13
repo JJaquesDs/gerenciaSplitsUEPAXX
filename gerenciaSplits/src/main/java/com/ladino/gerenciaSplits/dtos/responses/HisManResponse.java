@@ -6,12 +6,13 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public record HisManResponse(
-        UUID historicoManunId,
-        LocalDate dataManun,
+        UUID historicoManuId,
+        LocalDate dataManu,
         TipoManu tipoManu,
         String tecnicoResponsavel,
         String servicoRealizado,
         String observacoes,
-        UUID splitId
+        String rp,
+        String local
 ) {
 }

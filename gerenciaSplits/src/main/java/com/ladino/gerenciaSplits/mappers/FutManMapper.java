@@ -11,7 +11,8 @@ import java.lang.annotation.Target;
 public interface FutManMapper {
 
     //Transformando split Objeto inteiro em apenas splitId para responses da API
-    @Mapping(target = "splitId", source = "split.splitId")
+    @Mapping(target = "rp", source = "split.rp")
+    @Mapping(target = "local", source = "split.local.nomeLocal")
     FutManResponse toResponse(FuturasManu futurasManu);
 
 

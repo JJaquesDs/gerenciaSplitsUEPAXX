@@ -5,7 +5,7 @@ import com.ladino.gerenciaSplits.dtos.responses.HisManResponse;
 import com.ladino.gerenciaSplits.mappers.HisManMapper;
 import com.ladino.gerenciaSplits.models.HistoricoManu;
 import com.ladino.gerenciaSplits.models.Splits;
-import com.ladino.gerenciaSplits.repository.HistoricoManunRepository;
+import com.ladino.gerenciaSplits.repository.HistoricoManuRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.UUID;
 public class HisManService {
 
     //Injeção de dependência do repositório
-    private final HistoricoManunRepository hisManRepository;
+    private final HistoricoManuRepository hisManRepository;
 
     //Injeção de dependência para usar service de Splits
     private final SplitsService splitsService;
@@ -29,7 +29,7 @@ public class HisManService {
 
     //Construtor
     public HisManService(
-            HistoricoManunRepository hisManRepository,
+            HistoricoManuRepository hisManRepository,
             SplitsService splitsService,
             FutManService futManService,
             HisManMapper hisManMapper
@@ -84,13 +84,14 @@ public class HisManService {
     public List<HisManResponse> listarHisMan(){
 
         return hisManRepository.findAll().stream().map(hisMan -> new HisManResponse(
-                hisMan.getHistoricoManunId(),
-                hisMan.getDataManun(),
+                hisMan.getHistoricoManuId(),
+                hisMan.getDataManu(),
                 hisMan.getTipoManu(),
                 hisMan.getTecnicoResponsavel(),
                 hisMan.getServicoRealizado(),
                 hisMan.getObservacoes(),
-                hisMan.getSplit().getSplitId()
+                hisMan.getSplit().getRp(),
+                hisMan.getSplit().getLocal().getNomeLocal()
         )).toList();
 
     }

@@ -10,7 +10,7 @@ import java.util.UUID;
 public record HisManRequest(
 
         @NotNull
-        LocalDate dataManun,
+        LocalDate dataManu,
 
         @NotNull
         TipoManu tipoManu,

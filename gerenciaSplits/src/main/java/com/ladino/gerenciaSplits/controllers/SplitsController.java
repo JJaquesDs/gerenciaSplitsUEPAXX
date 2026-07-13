@@ -13,7 +13,9 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/splits")
-@Tag(name = "Listar", description = "Rotas para lidar com requisições de Splits//")
+@Tag(
+        name = "Splits",
+        description = "Rotas para lidar com requisições de Splits")
 public class SplitsController {
     /**Classe que controla requisições de splits**/
 

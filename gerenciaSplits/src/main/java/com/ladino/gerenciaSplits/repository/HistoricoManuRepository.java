@@ -7,10 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface HistoricoManunRepository extends JpaRepository<HistoricoManu, UUID> {
+public interface HistoricoManuRepository extends JpaRepository<HistoricoManu, UUID> {
 
     // Busca o primeiro Split pela Data de manutenção na ordem decrescente(mais recente)
-    Optional<HistoricoManu> findFirstBySplitOrderByDataManunDesc(Splits split);
+    Optional<HistoricoManu> findFirstBySplitOrderByDataManuDesc(Splits split);
 
 
 }

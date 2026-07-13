@@ -5,8 +5,8 @@ import com.ladino.gerenciaSplits.mappers.FutManMapper;
 import com.ladino.gerenciaSplits.models.FuturasManu;
 import com.ladino.gerenciaSplits.models.HistoricoManu;
 import com.ladino.gerenciaSplits.models.Splits;
-import com.ladino.gerenciaSplits.repository.FuturasManunRepository;
-import com.ladino.gerenciaSplits.repository.HistoricoManunRepository;
+import com.ladino.gerenciaSplits.repository.FuturasManuRepository;
+import com.ladino.gerenciaSplits.repository.HistoricoManuRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,21 +18,21 @@ import java.util.UUID;
 public class FutManService {
 
     //Injeção de dependência para usar repository
-    private final FuturasManunRepository futurasManunRepository;
+    private final FuturasManuRepository futurasManuRepository;
 
-    private final HistoricoManunRepository historicoManunRepository;
+    private final HistoricoManuRepository historicoManuRepository;
 
     //Injeção de dependência para usar mapper
     private final FutManMapper futManMapper;
 
     //Construtor
     public FutManService(
-            FuturasManunRepository futurasManunRepository,
-            HistoricoManunRepository historicoManunRepository,
+            FuturasManuRepository futurasManuRepository,
+            HistoricoManuRepository historicoManuRepository,
             FutManMapper futManMapper
     ){
-        this.futurasManunRepository = futurasManunRepository;
-        this.historicoManunRepository = historicoManunRepository;
+        this.futurasManuRepository = futurasManuRepository;
+        this.historicoManuRepository = historicoManuRepository;
         this.futManMapper = futManMapper;
     }
 
@@ -41,7 +41,7 @@ public class FutManService {
      * **/
     public FuturasManu buscarFutMan(UUID uuid){
 
-        Optional<FuturasManu> futurasManu = futurasManunRepository.findById(uuid);
+        Optional<FuturasManu> futurasManu = futurasManuRepository.findById(uuid);
 
         return futurasManu.orElse(null);
     }
@@ -52,13 +52,13 @@ public class FutManService {
         // Próxima data de manutenção
         LocalDate data;
 
-        Optional<HistoricoManu> ultimaManu = historicoManunRepository.
-                findFirstBySplitOrderByDataManunDesc(split);
+        Optional<HistoricoManu> ultimaManu = historicoManuRepository.
+                findFirstBySplitOrderByDataManuDesc(split);
 
 
         //Se já teve manutenção usa a data da última para atualizar a próxima
         if (ultimaManu.isPresent()){
-            data = ultimaManu.get().getDataManun();
+            data = ultimaManu.get().getDataManu();
 
         }else {
 
@@ -73,14 +73,14 @@ public class FutManService {
         LocalDate proximaData = data.plusMonths(mesesAdicao);
 
         //Atualizar ou criar registro em FuturasMan
-        FuturasManu futurasManu = futurasManunRepository.
+        FuturasManu futurasManu = futurasManuRepository.
                 findBySplit(split).orElse(new FuturasManu());
 
         futurasManu.setSplit(split);
 
         futurasManu.setDataProxManu(proximaData);
 
-        futurasManunRepository.save(futurasManu);
+        futurasManuRepository.save(futurasManu);
 
         futManMapper.toResponse(futurasManu);
     }
@@ -91,10 +91,11 @@ public class FutManService {
      * **/
     public List<FutManResponse> listarFutManService(){
 
-        return futurasManunRepository.findAll().stream().map(futurasManu -> new FutManResponse(
+        return futurasManuRepository.findAll().stream().map(futurasManu -> new FutManResponse(
                 futurasManu.getFuturasManuId(),
                 futurasManu.getDataProxManu(),
-                futurasManu.getSplit().getSplitId()
+                futurasManu.getSplit().getRp(),
+                futurasManu.getSplit().getLocal().getNomeLocal()
         )).toList();
 
     }
@@ -111,7 +112,7 @@ public class FutManService {
             throw new RuntimeException("Manutenção futura não encontrada");
         }
 
-        futurasManunRepository.deleteById(uuid);
+        futurasManuRepository.deleteById(uuid);
 
     }
 

@@ -12,10 +12,10 @@ public class HistoricoManu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID historicoManunId;
+    private UUID historicoManuId;
 
     @Column(nullable = false)
-    private LocalDate dataManun;
+    private LocalDate dataManu;
 
     //Transformando Enum em tipo String
     @Enumerated(EnumType.STRING)
@@ -40,15 +40,15 @@ public class HistoricoManu {
     }
 
 
-    public HistoricoManu(UUID historicoManunId,
-                         LocalDate dataManun,
+    public HistoricoManu(UUID historicoManuId,
+                         LocalDate dataManu,
                          TipoManu tipoManu,
                          String tecnicoResponsavel,
                          String servicoRealizado,
                          String observacoes,
                          Splits split) {
-        this.historicoManunId = historicoManunId;
-        this.dataManun = dataManun;
+        this.historicoManuId = historicoManuId;
+        this.dataManu = dataManu;
         this.tipoManu = tipoManu;
         this.tecnicoResponsavel = tecnicoResponsavel;
         this.servicoRealizado = servicoRealizado;
@@ -56,20 +56,20 @@ public class HistoricoManu {
         this.split = split;
     }
 
-    public UUID getHistoricoManunId() {
-        return historicoManunId;
+    public UUID getHistoricoManuId() {
+        return historicoManuId;
     }
 
-    public void setHistoricoManunId(UUID historicoManunId) {
-        this.historicoManunId = historicoManunId;
+    public void setHistoricoManuId(UUID historicoManuId) {
+        this.historicoManuId = historicoManuId;
     }
 
-    public LocalDate getDataManun() {
-        return dataManun;
+    public LocalDate getDataManu() {
+        return dataManu;
     }
 
-    public void setDataManun(LocalDate dataManun) {
-        this.dataManun = dataManun;
+    public void setDataManu(LocalDate dataManu) {
+        this.dataManu = dataManu;
     }
 
     public TipoManu getTipoManu() {

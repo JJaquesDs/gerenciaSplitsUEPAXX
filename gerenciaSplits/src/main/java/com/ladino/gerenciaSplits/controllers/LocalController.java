@@ -14,7 +14,9 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/locais")
-@Tag(name = "Locais", description = "Rotas para lidar com requisições de Locais")
+@Tag(
+        name = "Locais",
+        description = "Rotas para lidar com requisições de Locais")
 public class LocalController {
 
     private final LocalService localService;
