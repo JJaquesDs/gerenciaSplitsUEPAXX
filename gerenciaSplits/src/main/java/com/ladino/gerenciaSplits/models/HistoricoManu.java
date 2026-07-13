@@ -29,7 +29,7 @@ public class HistoricoManu {
     private String servicoRealizado;
 
     @Column(nullable = true)
-    private String obersavacoes;
+    private String observacoes;
 
     @ManyToOne
     @JoinColumn(name = "split_id", nullable = false)
@@ -45,14 +45,14 @@ public class HistoricoManu {
                          TipoManu tipoManu,
                          String tecnicoResponsavel,
                          String servicoRealizado,
-                         String obersavacoes,
+                         String observacoes,
                          Splits split) {
         this.historicoManunId = historicoManunId;
         this.dataManun = dataManun;
         this.tipoManu = tipoManu;
         this.tecnicoResponsavel = tecnicoResponsavel;
         this.servicoRealizado = servicoRealizado;
-        this.obersavacoes = obersavacoes;
+        this.observacoes = observacoes;
         this.split = split;
     }
 
@@ -96,12 +96,12 @@ public class HistoricoManu {
         this.servicoRealizado = servicoRealizado;
     }
 
-    public String getObersavacoes() {
-        return obersavacoes;
+    public String getObservacoes() {
+        return observacoes;
     }
 
-    public void setObersavacoes(String obersavacoes) {
-        this.obersavacoes = obersavacoes;
+    public void setObservacoes(String obersavacoes) {
+        this.observacoes = obersavacoes;
     }
 
     public Splits getSplit() {

@@ -89,7 +89,7 @@ public class HisManService {
                 hisMan.getTipoManu(),
                 hisMan.getTecnicoResponsavel(),
                 hisMan.getServicoRealizado(),
-                hisMan.getObersavacoes(),
+                hisMan.getObservacoes(),
                 hisMan.getSplit().getSplitId()
         )).toList();
 
