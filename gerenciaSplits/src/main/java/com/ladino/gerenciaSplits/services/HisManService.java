@@ -21,6 +21,9 @@ public class HisManService {
     //Injeção de dependência para usar service de Splits
     private final SplitsService splitsService;
 
+    //Injeção de dependência para usar service de Futuras Manutenções
+    private final FutManService futManService;
+
     //Injeção de dependência para usar Mapper
     private final HisManMapper hisManMapper;
 
@@ -28,10 +31,12 @@ public class HisManService {
     public HisManService(
             HistoricoManunRepository hisManRepository,
             SplitsService splitsService,
+            FutManService futManService,
             HisManMapper hisManMapper
     ) {
         this.hisManRepository = hisManRepository;
         this.splitsService = splitsService;
+        this.futManService = futManService;
         this.hisManMapper = hisManMapper;
     }
 
@@ -63,6 +68,9 @@ public class HisManService {
 
         hisManRepository.save(historicoManu);
 
+        //empurrando a data da próxima manutenção conforme a manutenção feita
+        futManService.atualizarProxMan(historicoManu.getSplit());
+
 
         //retornando apenas o mapper para responses(evita json infinitos)
         return hisManMapper.toResponse(historicoManu);
@@ -78,7 +86,7 @@ public class HisManService {
         return hisManRepository.findAll().stream().map(hisMan -> new HisManResponse(
                 hisMan.getHistoricoManunId(),
                 hisMan.getDataManun(),
-                hisMan.getTipoManun(),
+                hisMan.getTipoManu(),
                 hisMan.getTecnicoResponsavel(),
                 hisMan.getServicoRealizado(),
                 hisMan.getObersavacoes(),

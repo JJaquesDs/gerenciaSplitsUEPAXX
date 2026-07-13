@@ -72,11 +72,11 @@ public class HistoricoManu {
         this.dataManun = dataManun;
     }
 
-    public TipoManu getTipoManun() {
+    public TipoManu getTipoManu() {
         return tipoManu;
     }
 
-    public void setTipoManun(TipoManu tipoManu) {
+    public void setTipoManu(TipoManu tipoManu) {
         this.tipoManu = tipoManu;
     }
 

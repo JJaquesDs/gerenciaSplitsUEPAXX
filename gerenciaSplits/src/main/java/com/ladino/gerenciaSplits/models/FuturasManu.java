@@ -6,14 +6,14 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Faturas_manun")
+@Table(name = "futuras_manu")
 public class FuturasManu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID futurasManunId;
+    private UUID futurasManuId;
 
-    private LocalDate dataProxManun;
+    private LocalDate dataProxManu;
 
     @OneToOne
     @JoinColumn(name = "split_id", nullable = false)
@@ -23,29 +23,27 @@ public class FuturasManu {
     }
 
     public FuturasManu(
-            UUID futurasManunId,
-            LocalDate dataProxManun,
+            LocalDate dataProxManu,
             Splits split
     ) {
-        this.futurasManunId = futurasManunId;
-        this.dataProxManun = dataProxManun;
+        this.dataProxManu = dataProxManu;
         this.split = split;
     }
 
-    public UUID getFuturasManunId() {
-        return futurasManunId;
+    public UUID getFuturasManuId() {
+        return futurasManuId;
     }
 
-    public void setFuturasManunId(UUID futurasManunId) {
-        this.futurasManunId = futurasManunId;
+    public void setFuturasManuId(UUID futurasManuId) {
+        this.futurasManuId = futurasManuId;
     }
 
-    public LocalDate getDataProxManun() {
-        return dataProxManun;
+    public LocalDate getDataProxManu() {
+        return dataProxManu;
     }
 
-    public void setDataProxManun(LocalDate dataProxManun) {
-        this.dataProxManun = dataProxManun;
+    public void setDataProxManu(LocalDate dataProxManun) {
+        this.dataProxManu = dataProxManun;
     }
 
     public Splits getSplit() {

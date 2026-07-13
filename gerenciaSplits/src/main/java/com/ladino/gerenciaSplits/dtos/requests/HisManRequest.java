@@ -20,6 +20,7 @@ public record HisManRequest(
 
         @NotBlank
         String servicoRealizado,
+
         String observacoes,
 
         @NotNull(message = "O split é obrigatório")

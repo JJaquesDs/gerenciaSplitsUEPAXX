@@ -21,17 +21,22 @@ public class SplitsService {
     //Injeção de Dependência de LocalService para usar os serviços de local aqui no SplitService
     private final LocalService localService;
 
+    //Injeção de Dependência de FutManService para usar os serviços de Futuras Manutenções aqui no SplitService
+    private final FutManService futManService;
+
     private final SplitMapper splitMapper;
 
     //Construtor
     public SplitsService(
             SplitRepository splitRepository,
             LocalService localService,
+            FutManService futManService,
             SplitMapper splitMapper
     ) {
         this.splitRepository = splitRepository;
         this.localService = localService;
         this.splitMapper = splitMapper;
+        this.futManService = futManService;
     }
 
     // Buscar se um split existe
@@ -58,6 +63,9 @@ public class SplitsService {
 
 
         splitRepository.save(split);
+
+        //Criando uma nova data de manutenção para o split que foi criado automaticamente
+        futManService.atualizarProxMan(split);
 
         //Retornando apenas o mapper Response (evitar jsons infinitos)
         return splitMapper.toResponse(split);
