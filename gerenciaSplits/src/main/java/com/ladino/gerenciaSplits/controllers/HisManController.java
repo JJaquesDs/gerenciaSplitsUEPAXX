@@ -2,8 +2,10 @@ package com.ladino.gerenciaSplits.controllers;
 
 import com.ladino.gerenciaSplits.dtos.requests.HisManRequest;
 import com.ladino.gerenciaSplits.dtos.responses.HisManResponse;
+import com.ladino.gerenciaSplits.dtos.responses.HisUltimasManResponse;
 import com.ladino.gerenciaSplits.models.HistoricoManu;
 import com.ladino.gerenciaSplits.services.HisManService;
+import com.ladino.gerenciaSplits.services.UltimasManService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -24,8 +26,15 @@ public class HisManController {
     //Injeção de dependência para usar Service de históricos de manutenções
     private final HisManService hisManService;
 
-    public HisManController(HisManService hisManService){
+    private final UltimasManService ultimasManService;
+
+
+    public HisManController(
+            HisManService hisManService,
+            UltimasManService ultimasManService
+    ){
         this.hisManService = hisManService;
+        this.ultimasManService = ultimasManService;
     }
 
 
@@ -66,6 +75,15 @@ public class HisManController {
     public void deleteHisMan(@PathVariable("uuid") UUID uuid){
 
         hisManService.hisManDelete(uuid);
+    }
+
+    @GetMapping("/ultimas")
+    @Operation(
+            summary = "Listar todasa as últimas manutenções dos splits",
+            description = "Rota para lidar com requisições GET para listar todas as últimas datas de manutenções dos splits"
+    )
+    public List<HisUltimasManResponse> hisUltimas(){
+        return ultimasManService.listarUltimasManService();
     }
 
 

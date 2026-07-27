@@ -33,3 +33,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+## PROPERTIES ##
+application.properties
+../gerenciaSplits/gerenciaSplits/src/main/resources/application.properties/
