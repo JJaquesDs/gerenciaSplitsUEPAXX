@@ -9,6 +9,7 @@ import com.ladino.gerenciaSplits.services.UltimasManService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,8 +44,8 @@ public class HisManController {
             summary = "Criar históricos de manutenções",
             description = "Rota para lidar com requisições POST de criar Históricos de Manutenções"
     )
-    public HisManResponse criarHisMan( @Valid @RequestBody HisManRequest hisManRequest){
-        return hisManService.criarHisMan(hisManRequest);
+    public ResponseEntity<HisManResponse> criarHisMan(@Valid @RequestBody HisManRequest hisManRequest){
+        return ResponseEntity.ok(hisManService.criarHisMan(hisManRequest));
     }
 
 
@@ -53,8 +54,8 @@ public class HisManController {
             summary = "Listar históricos de manutenções",
             description = "Rota para lidar com requisições GET de listar todos os históricos de manutenções"
     )
-    public List<HisManResponse> listarHisMan(){
-        return hisManService.listarHisMan();
+    public ResponseEntity<List<HisManResponse>> listarHisMan(){
+        return ResponseEntity.ok(hisManService.listarHisMan());
     }
 
 
@@ -63,8 +64,8 @@ public class HisManController {
             summary = "Listar históricos de manutenções por UUID",
             description = "Rota para lidar com requisições GET de listar históricos de manutenção por UUID"
     )
-    public HistoricoManu hisManPorUUID(@PathVariable UUID uuid){
-        return hisManService.buscarHistoricoMan(uuid);
+    public ResponseEntity<HistoricoManu>hisManPorUUID(@PathVariable UUID uuid){
+        return ResponseEntity.ok(hisManService.buscarHistoricoMan(uuid));
     }
 
     @DeleteMapping("/deletar/{uuid}")
@@ -72,9 +73,13 @@ public class HisManController {
             summary = "Deletar históricos de manutenções por UUID",
             description = "Rota para lidar com requisições DELETE de históricos de manutenção por UUID"
     )
-    public void deleteHisMan(@PathVariable("uuid") UUID uuid){
+    public ResponseEntity<Void> deleteHisMan(@PathVariable("uuid") UUID uuid){
 
+        //Tenta deletar um histórico de manutenção pelo uuid, se não encontrar, lança exception
         hisManService.hisManDelete(uuid);
+
+        //retorna a requisição sem conteúdo no corpo
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/ultimas")
@@ -82,8 +87,8 @@ public class HisManController {
             summary = "Listar todasa as últimas manutenções dos splits",
             description = "Rota para lidar com requisições GET para listar todas as últimas datas de manutenções dos splits"
     )
-    public List<HisUltimasManResponse> hisUltimas(){
-        return ultimasManService.listarUltimasManService();
+    public ResponseEntity<List<HisUltimasManResponse>> hisUltimas(){
+        return ResponseEntity.ok(ultimasManService.listarUltimasManService());
     }
 
 

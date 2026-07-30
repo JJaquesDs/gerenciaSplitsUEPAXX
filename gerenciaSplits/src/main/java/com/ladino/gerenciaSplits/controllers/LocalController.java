@@ -7,6 +7,7 @@ import com.ladino.gerenciaSplits.services.LocalService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,16 +30,16 @@ public class LocalController {
     @Operation(
             summary = "Criar Locais",
             description = "Rota para lidar com requisições POST de criar Locais")
-    public Local criarLocal(@Valid @RequestBody LocalRequest localRequest){
-        return localService.criarLocal(localRequest);
+    public ResponseEntity<Local> criarLocal(@Valid @RequestBody LocalRequest localRequest){
+        return ResponseEntity.ok(localService.criarLocal(localRequest));
     }
 
     @GetMapping("/listar")
     @Operation(
             summary = "Listar Locais",
             description = "Rota para lidar com requisições GET de listar todos os locais")
-    public List<LocalResponse> listarLocais(){
-        return localService.listarLocais();
+    public ResponseEntity<List<LocalResponse>> listarLocais(){
+        return ResponseEntity.ok(localService.listarLocais());
     }
 
     @DeleteMapping("/deletar/{uuid}")
@@ -46,8 +47,13 @@ public class LocalController {
             summary = "Deletar Locais",
             description = "Rota para lidar com requisições DELETE de deletar Locais por UUID"
     )
-    public void deletarLocal(@PathVariable UUID uuid){
+    public ResponseEntity<Void> deletarLocal(@PathVariable UUID uuid){
+
+        //Tenta deletar o local se não encontrar lança exception
         localService.deletarLocalPorId(uuid);
+
+        //Retorna sem corpo a requisição
+        return ResponseEntity.noContent().build();
     }
 
 

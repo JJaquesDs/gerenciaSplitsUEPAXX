@@ -6,6 +6,7 @@ import com.ladino.gerenciaSplits.services.SplitsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,8 +39,8 @@ public class SplitsController {
             summary = "Criar Split",
             description = "Rota para lidar com requisições POST de criar Splits"
     )
-    public SplitResponse criarSplit(@Valid @RequestBody SplitRequest splitRequest){
-        return splitsService.criarSplit(splitRequest);
+    public ResponseEntity<SplitResponse> criarSplit(@Valid @RequestBody SplitRequest splitRequest){
+        return ResponseEntity.ok(splitsService.criarSplit(splitRequest));
     }
 
     /***
@@ -50,8 +51,8 @@ public class SplitsController {
             summary = "Listar todos Splits",
             description = "Rota para lidar com requisições GET de listar todos os Splits"
     )
-    public List<SplitResponse> listarSplits(){
-        return splitsService.listarSplits();
+    public ResponseEntity<List<SplitResponse>> listarSplits(){
+        return ResponseEntity.ok(splitsService.listarSplits());
     }
 
     @PatchMapping("/atualizar/{uuid}")
@@ -59,9 +60,9 @@ public class SplitsController {
             summary = "Atualizar Split por UUID",
             description = "Rota para lidar com requisições PATCH de atualizar splits por UUID"
     )
-    public SplitResponse atualizarSplit(@PathVariable UUID uuid,
+    public ResponseEntity<SplitResponse> atualizarSplit(@PathVariable UUID uuid,
                                         @RequestBody SplitRequest splitRequest){
-        return splitsService.atualizarSplitPorId(uuid, splitRequest);
+        return ResponseEntity.ok(splitsService.atualizarSplitPorId(uuid, splitRequest));
     }
 
 
@@ -70,8 +71,12 @@ public class SplitsController {
             summary = "Deletar um split por UUID",
             description = "Rota para lidar com requisição DELETE de splits por UUID"
     )
-    public void deletarSplit(@PathVariable UUID uuid){
+    public ResponseEntity<Void> deletarSplit(@PathVariable UUID uuid){
 
+        //tenta deletar o split pelo uuid, se não encontrar lança exception
         splitsService.deletarSplitPorId(uuid);
+
+        //retorna requisição sem corpo
+        return ResponseEntity.noContent().build();
     }
 }

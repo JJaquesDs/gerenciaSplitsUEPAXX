@@ -4,6 +4,7 @@ import com.ladino.gerenciaSplits.dtos.responses.FutManResponse;
 import com.ladino.gerenciaSplits.services.FutManService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,8 +31,8 @@ public class FutManController {
             summary = "Listar todas as futuras manutenções de todos splits",
             description = "Rota para lidar com requisições GET para listar todas futuras manutenções de splits"
     )
-    public List<FutManResponse> listarFutMan(){
-        return futManService.listarFutManService();
+    public ResponseEntity<List<FutManResponse>> listarFutMan(){
+        return ResponseEntity.ok(futManService.listarFutManService());
     }
 
     @DeleteMapping("deletar/{uuid}")
@@ -39,8 +40,12 @@ public class FutManController {
             summary = "Deletar futura manutenção pelo UUID",
             description = "Rota para lidar com requisições DELETE para deletar futuras manutenções pelo UUID"
     )
-    public void deletarFutMan(@PathVariable("uuid") UUID uuid){
+    public ResponseEntity<Void> deletarFutMan(@PathVariable("uuid") UUID uuid){
+
+        //tenta deletar a futura manutenção. Se não achar lança exception
         futManService.deletarFutMan(uuid);
+
+        return ResponseEntity.noContent().build();
     }
 
 }
