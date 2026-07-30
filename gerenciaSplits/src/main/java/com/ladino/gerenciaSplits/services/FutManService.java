@@ -1,6 +1,7 @@
 package com.ladino.gerenciaSplits.services;
 
 import com.ladino.gerenciaSplits.dtos.responses.FutManResponse;
+import com.ladino.gerenciaSplits.exceptions.FutManNotFoundException;
 import com.ladino.gerenciaSplits.mappers.FutManMapper;
 import com.ladino.gerenciaSplits.models.FuturasManu;
 import com.ladino.gerenciaSplits.models.HistoricoManu;
@@ -41,9 +42,10 @@ public class FutManService {
      * **/
     public FuturasManu buscarFutMan(UUID uuid){
 
-        Optional<FuturasManu> futurasManu = futurasManuRepository.findById(uuid);
-
-        return futurasManu.orElse(null);
+        //Busca se a futura manutenção já existe, se não lança exception
+        return futurasManuRepository.findById(uuid).orElseThrow(
+                () -> new FutManNotFoundException(uuid)
+        );
     }
 
 
@@ -106,11 +108,8 @@ public class FutManService {
      * **/
     public void deletarFutMan(UUID uuid){
 
+        //Busca se a futura manutenção já existe, se não lança exception
         FuturasManu futurasManu = buscarFutMan(uuid);
-
-        if (futurasManu == null){
-            throw new RuntimeException("Manutenção futura não encontrada");
-        }
 
         futurasManuRepository.deleteById(uuid);
 

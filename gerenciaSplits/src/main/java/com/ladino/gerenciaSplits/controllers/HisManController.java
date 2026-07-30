@@ -63,8 +63,8 @@ public class HisManController {
             summary = "Listar históricos de manutenções por UUID",
             description = "Rota para lidar com requisições GET de listar históricos de manutenção por UUID"
     )
-    public Optional<HistoricoManu> HisManPorUUID(@PathVariable UUID uuid){
-        return hisManService.listarHisManPorUuid(uuid);
+    public HistoricoManu hisManPorUUID(@PathVariable UUID uuid){
+        return hisManService.buscarHistoricoMan(uuid);
     }
 
     @DeleteMapping("/deletar/{uuid}")

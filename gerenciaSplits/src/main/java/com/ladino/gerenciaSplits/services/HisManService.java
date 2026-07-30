@@ -2,6 +2,7 @@ package com.ladino.gerenciaSplits.services;
 
 import com.ladino.gerenciaSplits.dtos.requests.HisManRequest;
 import com.ladino.gerenciaSplits.dtos.responses.HisManResponse;
+import com.ladino.gerenciaSplits.exceptions.HisManNotFoundException;
 import com.ladino.gerenciaSplits.mappers.HisManMapper;
 import com.ladino.gerenciaSplits.models.HistoricoManu;
 import com.ladino.gerenciaSplits.models.Splits;
@@ -42,9 +43,10 @@ public class HisManService {
 
     public HistoricoManu buscarHistoricoMan(UUID uuid){
 
-        Optional<HistoricoManu> historicoManun = hisManRepository.findById(uuid);
-
-        return historicoManun.orElse(null);
+        //Busca o split pelo id e se não encontrar lança exception
+        return hisManRepository.findById(uuid).orElseThrow(
+                () -> new HisManNotFoundException(uuid)
+        );
 
     }
 
@@ -54,11 +56,8 @@ public class HisManService {
      * **/
     public HisManResponse criarHisMan(HisManRequest hisManRequest){
 
+        //Se não encontrar já lança exception
         Splits split = splitsService.buscarSplitExistente(hisManRequest.splitId());
-
-        if(split == null){
-            throw new RuntimeException("Split não encontrado");
-        }
 
         //Usando mapper para criar a entidade com base no dto request
         HistoricoManu historicoManu = hisManMapper.toEntity(hisManRequest);
@@ -98,26 +97,12 @@ public class HisManService {
 
 
     /**
-     * Service de Listar históricos de manutenções por UUID
-     * **/
-    public Optional<HistoricoManu> listarHisManPorUuid(UUID uuid){
-
-        return hisManRepository.findById(uuid);
-
-    }
-
-
-    /**
      * Service para deletar um histórico de manutenção
      * **/
     public void hisManDelete(UUID uuid){
 
+        //Busca o histórico se não encontrar lança exception
         HistoricoManu hisManRequest = buscarHistoricoMan(uuid);
-
-        if (hisManRequest == null){
-            throw new RuntimeException("Histórico não encontrado");
-        }
-
 
         hisManRepository.deleteById(uuid);
 

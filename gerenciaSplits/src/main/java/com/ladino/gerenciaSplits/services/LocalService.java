@@ -2,6 +2,8 @@ package com.ladino.gerenciaSplits.services;
 
 import com.ladino.gerenciaSplits.dtos.requests.LocalRequest;
 import com.ladino.gerenciaSplits.dtos.responses.LocalResponse;
+import com.ladino.gerenciaSplits.exceptions.LocalJaExisteException;
+import com.ladino.gerenciaSplits.exceptions.LocalNotFoundException;
 import com.ladino.gerenciaSplits.models.Local;
 import com.ladino.gerenciaSplits.repository.LocalRepository;
 import org.springframework.stereotype.Service;
@@ -26,10 +28,8 @@ public class LocalService {
      * */
     public Local buscarLocalExistente(UUID uuid){
 
-        //Cria um objeto que pode ou não ter um registro de split pelo uuid
-        Optional<Local> localPorId = localRepository.findById(uuid);
-
-        return localPorId.orElse(null);
+        //busca no repositório se não achar lança exception
+        return localRepository.findById(uuid).orElseThrow(() -> new LocalNotFoundException(uuid));
     }
 
     /**
@@ -42,8 +42,9 @@ public class LocalService {
 
         //verificando se o local já existe para não duplicar persistências
         if (localRepository.findByNomeLocal(nomeLocal).isPresent()){
-            throw new RuntimeException("Local já existe");
+            throw new LocalJaExisteException(nomeLocal);
         }
+
 
         //Criando local
         Local local = new Local();
@@ -66,18 +67,15 @@ public class LocalService {
     //Listar por Id
     public Local listarLocalPorId(UUID uuid){
 
-        //Utilizando Método já existente
+        //Utilizando Método já existente (já lança exception caso não ache)
         return buscarLocalExistente(uuid);
     }
 
     //Atualizar Local
     public Local atualizarLocalPorId(UUID uuid, LocalRequest localRequest ){
 
+        //Já lança exception caso não encontre
         Local local = buscarLocalExistente(uuid);
-
-        if (local == null){
-            throw new RuntimeException("Local não existe");
-        }
 
         local.setNomeLocal(localRequest.nomeLocal());
 
@@ -87,11 +85,9 @@ public class LocalService {
     //Deletar Local
     public void deletarLocalPorId(UUID uuid){
 
+        //Já lança exception caso não encontre
         Local local = buscarLocalExistente(uuid);
 
-        if (local == null){
-            throw new RuntimeException("Local nao encontrado");
-        }
 
         localRepository.deleteById(uuid);
     }

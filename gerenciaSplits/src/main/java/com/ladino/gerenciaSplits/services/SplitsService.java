@@ -2,6 +2,7 @@ package com.ladino.gerenciaSplits.services;
 
 import com.ladino.gerenciaSplits.dtos.requests.SplitRequest;
 import com.ladino.gerenciaSplits.dtos.responses.SplitResponse;
+import com.ladino.gerenciaSplits.exceptions.SplitNotFoundException;
 import com.ladino.gerenciaSplits.mappers.SplitMapper;
 import com.ladino.gerenciaSplits.models.Local;
 import com.ladino.gerenciaSplits.models.Splits;
@@ -41,21 +42,18 @@ public class SplitsService {
 
     // Buscar se um split existe
     public Splits buscarSplitExistente(UUID uuid){
-        //Cria um objeto que pode ou não ter um registro de split pelo uuid
-        Optional<Splits> splitPorId = splitRepository.findById(uuid);
 
-        // Se existir retorna ou retorna nulo
-        return splitPorId.orElse(null);
+        // Busca e se não existir lança a exception
+        return splitRepository.findById(uuid).orElseThrow(
+                () -> new SplitNotFoundException(uuid)
+        );
     }
 
     // Create
     public SplitResponse criarSplit(SplitRequest splitRequest){
 
-        Local local = localService.buscarLocalExistente(splitRequest.localId());
 
-        if (local == null){
-            throw new RuntimeException("Local não encontrado");
-        }
+        Local local = localService.buscarLocalExistente(splitRequest.localId());
 
         Splits split = splitMapper.toEntity(splitRequest);
 
@@ -97,13 +95,8 @@ public class SplitsService {
     //Atualizar
     public SplitResponse atualizarSplitPorId(UUID uuid, SplitRequest splitAtualizado){
 
-        //Buscando se o split já existe
+        //Buscando se o split já existe (já lança exception)
         Splits split = buscarSplitExistente(uuid);
-
-        //TODO: CRIAR EXCEPTION
-        if(split == null){
-            throw new RuntimeException("Nao encontrado");
-        }
 
         //Usando o mapper que já trata campos nulos
         splitMapper.updateFromRequest(splitAtualizado, split);
@@ -136,12 +129,11 @@ public class SplitsService {
     //Delete
     public void deletarSplitPorId(UUID uuid){
 
+        //Busca se split já existe (já lança a exception)
         Splits split = buscarSplitExistente(uuid);
 
-        //TODO: Refatorar para lançar uma exception
-        if (split != null) {
-            splitRepository.delete(split);
-        }
+        splitRepository.delete(split);
+
     }
 
 }
