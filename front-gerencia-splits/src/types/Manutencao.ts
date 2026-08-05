@@ -34,3 +34,12 @@ export interface FutManResponse {
     rp: string
     local: string
 }
+
+export interface DashboardGeralResponse {
+    rp: string;
+    marca: string;
+    local: string;
+    ultimaData?: string;
+    proximaData?: string;
+    futurasManunId?: string;
+}
