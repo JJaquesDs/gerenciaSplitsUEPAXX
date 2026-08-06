@@ -1,39 +1,41 @@
-import { Nav, Navbar, Container } from "react-bootstrap";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Outlet, Link, useLocation } from "react-router-dom";
+import logo_uepa from '../assets/logo_uepa.png'
 
 export function Layout() {
     const location = useLocation();
+
+    // verificar se a rota está ativa
+    const isActive = (path: string) => {
+        return location.pathname === path ? 'topbar-link active' : 'topbar-link';
+    };
+
     return (
         <>
-            {/*Menu Superior (Navbar)*/}
-            <Navbar bg="dark" variant="dark" expand="lg" className="mb-4">
-                <Container>
-                    <Navbar.Brand as={Link} to="/">Gestão de Splits</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="me-auto">
-                            <Nav.Link as={Link} to="/" active={location.pathname === '/'}>
-                                Dashboard
-                            </Nav.Link>
-                            <Nav.Link as={Link} to="/locais" active={location.pathname === '/locais'}>
-                                Locais
-                            </Nav.Link>
-                            <Nav.Link as={Link} to="/splits" active={location.pathname === '/splits'}>
-                                Splits
-                            </Nav.Link>
-                            <Nav.Link as={Link} to="/historico" active={location.pathname === '/historico'}>
-                                Histórico
-                            </Nav.Link>
-                        </Nav>
-                    </Navbar.Collapse>
-                </Container>
-            </Navbar>
+            <header className="topbar-wrapper">
+                <div className="topbar-content">
+                    
+                    <div className="topbar-brand">
+                        <img src={logo_uepa} alt="Logo UEPA" className="topbar-logo" />
+                        <div className="topbar-divider"></div>
+                        <h1 className="topbar-title">Sistema de Gestão de Manutenções</h1>
+                    </div>
 
-            {/*O Outlet é onde as páginas (Rotas filhas) serão renderizadas*/}
-            <Container>
+                    <nav className="topbar-nav">
+                        <Link to="/dashboard" className={isActive('/dashboard')}>Dashboard</Link>
+                        <Link to="/locais" className={isActive('/locais')}>Locais</Link>
+                        <Link to="/splits" className={isActive('/splits')}>Splits</Link>
+                        <Link to="/historico" className={isActive('/historico')}>Histórico</Link>
+                    </nav>
+                </div>
+
+                <div className="topbar-bottom-line"></div>
+            </header>
+
+            {/* Outlet renderiza o conteúdo das páginas*/}
+            <main className="page-container">
                 <Outlet />
-            </Container>
+            </main>
         </>
-
-    )
+    );
+       
 }
