@@ -1,0 +1,272 @@
+
+:root {
+  /* Cores UEPA */
+  --uepa-blue: #312783;
+  --uepa-red: #ff2910;
+  
+  /* Cores de Base */
+  --ink: #1e293b;
+  --muted: #64748b;
+  --surface: #ffffff;
+  --page-bg: #f4f6f9;
+  
+  --radius: 12px;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+body {
+  background-color: var(--page-bg);
+  color: var(--ink);
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Cabeçalho da Página */
+.page-head {
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--uepa-red);
+}
+
+.page-head h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--uepa-blue);
+  margin: 0 0 0.5rem 0;
+}
+
+.page-head p {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--muted);
+}
+
+/* Cartões de KPI */
+.app-card {
+  background: var(--surface);
+  border: none;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.kpi-icon-wrapper {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.kpi-blue { background-color: #eef2ff; color: #312783; }
+.kpi-red { background-color: #eef2ff; color: #ff2910; }
+.kpi-green { background-color: #eef2ff; color: #22c55e; }
+
+/* Barra de Pesquisa */
+.search-container {
+  background: var(--surface);
+  padding: 1.5rem;
+  border-radius: var(--radius) var(--radius) 0 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.search-label {
+  font-weight: 700;
+  color: var(--uepa-blue);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.search-premium {
+  max-width: 500px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #cbd5e1;
+}
+
+.search-premium .input-group-text {
+  background-color: transparent;
+  border: none;
+  color: var(--muted);
+  padding-left: 1rem;
+}
+
+.search-premium .form-control {
+  border: none;
+  box-shadow: none;
+  padding: 0.75rem;
+}
+
+.search-premium:focus-within {
+  border-color: var(--uepa-blue);
+  box-shadow: 0 0 0 3px rgba(22, 36, 138, 0.1);
+}
+
+/* Tabela */
+.table-shell {
+  background: var(--surface);
+  border-radius: 0 0 var(--radius) var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.app-table {
+  margin: 0;
+}
+
+.app-table thead th {
+  background-color: var(--uepa-blue);
+  color: var(--surface);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 1.25rem 1rem;
+  border: none;
+}
+
+.app-table tbody td {
+  padding: 1.25rem 1rem;
+  vertical-align: middle;
+  border-top: 1px solid #f1f5f9;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.app-table tbody tr:hover td {
+  background-color: #f8fafc;
+}
+
+.text-muted-custom {
+  color: var(--muted);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Etiquetas de Status (Com bolinha) */
+.status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.status-tag::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.status-green { background: #f0fdf4; color: #166534; }
+.status-green::before { background: #22c55e; }
+
+.status-red { background: #f0fdf4; color: #991b1b; }
+.status-red::before { background: #ef4444; }
+
+.status-grey { background: #f0fdf4; color: #475569; }
+.status-grey::before { background: #64748b; }
+
+/* Botão Ícone (Lixeira) */
+.btn-icon-danger {
+  color: #ef4444;
+  background: transparent;
+  border: none;
+  padding: 0.25rem;
+  transition: color 0.2s;
+}
+.btn-icon-danger:hover {
+  color: #b91c1c;
+}
+
+/* Cabeçalho Global Institucional */
+.topbar-wrapper {
+  background-color: var(--surface);
+  width: 100%;
+}
+
+.topbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 2rem;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.topbar-logo {
+  max-height: 55px;
+  object-fit: contain;
+}
+
+.topbar-divider {
+  width: 1px;
+  height: 45px;
+  background-color: #cbd5e1;
+}
+
+.topbar-title {
+  color: var(--uepa-blue);
+  font-weight: 800;
+  font-size: 1.35rem;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.topbar-nav {
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.topbar-link {
+  text-decoration: none;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.topbar-link:hover {
+  color: var(--uepa-blue);
+}
+
+.topbar-link.active {
+  color: var(--uepa-blue);
+  border-bottom-color: var(--uepa-blue);
+}
+
+/* A linha grossa azul abaixo do cabeçalho */
+.topbar-bottom-line {
+  height: 16px;
+  background-color: var(--uepa-blue);
+  width: 100%;
+}
+
+/* Margem superior para afastar as páginas do cabeçalho */
+.page-container {
+  padding: 2rem;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+/* Remover linha ao lado da lupa de pesquisa (padrão do bootstrap) */
+.search-premium .form-control:focus {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  background-color: transparent;
+}
