@@ -1,30 +1,29 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from './assets/vite.svg'
-// import heroImg from './assets/hero.png'
-// import './App.css'
-
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { Layout } from './components/Layout'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Layout } from './components/Layout';
 import { Dashboard } from './pages/Dashboard'
 import { Historico } from './pages/Historico'
 import { Locais } from './pages/Locais'
 import { Splits } from './pages/Splits'
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        {/* A rota pai aplica o layout em todas as filhas */}
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="locais" element={<Locais />} />
-          <Route path="splits" element={<Splits />} />
-          <Route path="historico" element={<Historico />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  )
+    return (
+        <BrowserRouter>
+            <Routes>
+                {/* elemento Rota Pai */}
+                <Route path="/" element={<Layout />}>
+                    
+                    <Route index element={<Navigate to="/dashboard" replace />} />
+                    
+                    {/* Rotas Filhas vão ser injetadas no Outlet */}
+                    <Route path="dashboard" element={<Dashboard />} />
+                    <Route path="locais" element={<Locais />} />
+                    <Route path="splits" element={<Splits />} />
+                    <Route path="historico" element={<Historico />} />
+                    
+                </Route>
+            </Routes>
+        </BrowserRouter>
+    );
 }
 
 export default App
