@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -64,7 +63,7 @@ public class HisManController {
             summary = "Listar históricos de manutenções por UUID",
             description = "Rota para lidar com requisições GET de listar históricos de manutenção por UUID"
     )
-    public ResponseEntity<HistoricoManu>hisManPorUUID(@PathVariable UUID uuid){
+    public ResponseEntity<HisManResponse> hisManPorUUID(@PathVariable UUID uuid){
         return ResponseEntity.ok(hisManService.buscarHistoricoMan(uuid));
     }
 

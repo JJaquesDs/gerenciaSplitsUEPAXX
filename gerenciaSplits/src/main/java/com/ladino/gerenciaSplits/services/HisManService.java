@@ -10,7 +10,6 @@ import com.ladino.gerenciaSplits.repository.HistoricoManuRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -41,10 +40,19 @@ public class HisManService {
         this.hisManMapper = hisManMapper;
     }
 
-    public HistoricoManu buscarHistoricoMan(UUID uuid){
+    public HisManResponse buscarHistoricoMan(UUID uuid){
 
         //Busca o split pelo id e se não encontrar lança exception
-        return hisManRepository.findById(uuid).orElseThrow(
+        return hisManRepository.findById(uuid).map(historicoManu -> new HisManResponse(
+                historicoManu.getHistoricoManuId(),
+                historicoManu.getDataManu(),
+                historicoManu.getTipoManu(),
+                historicoManu.getTecnicoResponsavel(),
+                historicoManu.getServicoRealizado(),
+                historicoManu.getObservacoes(),
+                historicoManu.getSplit().getRp(),
+                historicoManu.getSplit().getLocal().getNomeLocal()
+        )).orElseThrow(
                 () -> new HisManNotFoundException(uuid)
         );
 
@@ -102,7 +110,7 @@ public class HisManService {
     public void hisManDelete(UUID uuid){
 
         //Busca o histórico se não encontrar lança exception
-        HistoricoManu hisManRequest = buscarHistoricoMan(uuid);
+        HisManResponse hisManRequest = buscarHistoricoMan(uuid);
 
         hisManRepository.deleteById(uuid);
 
