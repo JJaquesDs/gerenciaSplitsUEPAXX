@@ -719,8 +719,8 @@ Encontrou um bug ou tem uma sugestão? Sinta-se livre para mandar um email para 
 
 -----------------------------------------------------------------------------------------------------------------------
 
-Versão da API: `0.1.0`
+Versão da API: `0.1.1`
 
-Data da última grande atualização: `30/07/2026`
+Data da última grande atualização: `13/08/2026`
 
  © Direitos Reservados
