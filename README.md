@@ -39,7 +39,7 @@ Para acessar o sistema, você pode rodar tanto via IDE em [GerenciaSplitsApplica
 
 Por padrão, na IDE já estamos na raiz do projeto, mas caso queira entrar pelo terminal do PC, precisa entrar na raiz do projeto
 
-<img src="images_for_docs/startup_application.jpg" width="400" alt="Exemplo">
+<img src="gerenciaSplits/images_for_docs/startup_application.jpg" width="400" alt="Exemplo">
 
 Via terminal, caso queira iniciar assim, execute:
 
@@ -70,7 +70,7 @@ bem como exemplos de saídas e visualização das saídas dos json da API.
 
 Ela permite mostrar uma interface amigável para manipulação do backend e testes das rotas
 
-<img src="images_for_docs/swagger-interface.jpg" width="400">
+<img src="gerenciaSplits/images_for_docs/swagger-interface.jpg" width="400">
 
 # Endpoints
 
