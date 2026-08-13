@@ -12,6 +12,10 @@
   
   --radius: 12px;
   --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+  --status-green: #166534;
+  --status-red: #991b1b;
+  --status-grey: #475569;
 }
 
 body {
@@ -163,13 +167,13 @@ body {
   border-radius: 50%;
 }
 
-.status-green { background: #f0fdf4; color: #166534; }
+.status-green { background: #f0fdf4; color: var(--status-green); }
 .status-green::before { background: #22c55e; }
 
-.status-red { background: #f0fdf4; color: #991b1b; }
+.status-red { background: #f0fdf4; color: var(--status-red); }
 .status-red::before { background: #ef4444; }
 
-.status-grey { background: #f0fdf4; color: #475569; }
+.status-grey { background: #f0fdf4; color: var(--status-grey); }
 .status-grey::before { background: #64748b; }
 
 /* Botão Ícone (Lixeira) */
@@ -269,4 +273,20 @@ body {
   box-shadow: none !important;
   outline: none !important;
   background-color: transparent;
+}
+
+/* Dropdown Exportar para Excel */
+.dropdown-item.dropdown-relatorio-item {
+  color: var(--muted);
+  font-weight: 600; 
+  transition: all 0.1s ease;
+}
+
+.dropdown-item.dropdown-relatorio-item:hover,
+.dropdown-item.dropdown-relatorio-item:focus,
+.dropdown-item.dropdown-relatorio-item.active,
+.dropdown-item.dropdown-relatorio-item:active {
+  color: var(--surface); 
+  background-color: var(--status-green);
+  border-radius: 8px;
 }
