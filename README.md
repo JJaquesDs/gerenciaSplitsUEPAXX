@@ -8,9 +8,18 @@ quanto em relação a suas manutenções
 O sistema na fase atual permite:
 
 * Cadastrar locais do campus e alocar os splits neles
+
+
 * Registrar os e gerenciar os dados dos Splits
+
+
 * Registrar e gerenciar dados de históricos de manutenções dos splits
+
+
 * Visualizar as possíveis datas de futuras manutenções preventivas dos splits automaticamente
+
+
+* Gerar relatórios Excel para controle do gerenciamento
 
 ## Tecnologias utilizadas
 
@@ -23,10 +32,11 @@ O sistema na fase atual permite:
 * Jakarta Validation
 * OpenAPI / Swagger
 * Maven
+* Apache POI
 
 ## Configuração do banco de dados para acesso ao sistema
 
-Encontre o arquivo [example-application.properties](src/main/resources/example-application.properties)
+Encontre o arquivo [example-application.properties](gerenciaSplits/src/main/resources/example-application.properties)
 e no mesmo diretório crie um arquivo file com o nome "application.properties" e preencha conforme as especificações do example
 
 Vale ressaltar que deve ser criado um banco de dados Postgres para ser preenchido em properties
@@ -35,11 +45,11 @@ As tabelas serão criadas a partir dos models/entidades automaticamente ao rodar
 
 ## Acesso ao sistema
 
-Para acessar o sistema, você pode rodar tanto via IDE em [GerenciaSplitsApplication](src/main/java/com/ladino/gerenciaSplits/GerenciaSplitsApplication.java) quanto via terminal da IDE ou nativo do PC.
+Para acessar o sistema, você pode rodar tanto via IDE em [GerenciaSplitsApplication](gerenciaSplits/src/main/java/com/ladino/gerenciaSplits/GerenciaSplitsApplication.java) quanto via terminal da IDE ou nativo do PC.
 
 Por padrão, na IDE já estamos na raiz do projeto, mas caso queira entrar pelo terminal do PC, precisa entrar na raiz do projeto
 
-<img src="images_for_docs/startup_application.jpg" width="400" alt="Exemplo">
+<img src="gerenciaSplits/images_for_docs/startup_application.jpg" width="400" alt="Exemplo">
 
 Via terminal, caso queira iniciar assim, execute:
 
@@ -70,7 +80,7 @@ bem como exemplos de saídas e visualização das saídas dos json da API.
 
 Ela permite mostrar uma interface amigável para manipulação do backend e testes das rotas
 
-<img src="images_for_docs/swagger-interface.jpg" width="400">
+<img src="gerenciaSplits/images_for_docs/swagger-interface.jpg" width="400">
 
 # Endpoints
 
@@ -559,7 +569,72 @@ Parâmetros:
 Possíveis Erros:
 
 - `404 Not Found` - Manutenção futura não encontrado com o UUID fornecido
+--------------------------------------------------------------------------------------------
 
+## Relatórios
+Base URL: `/api/relatorios`
+
+1. **Relatórios de cadastros das Splits**
+
+
+Retorna uma planilha Excel com cadastro de todas as Splits no campus.
+
+Endpoint: GET /api/relatorios/cadastros_splits
+
+- Parâmetros: Nenhum
+
+- Response: 200 OK
+
+Response Body:
+``cadastro_splits.xlsx``
+
+2. **Relatórios de Histórico de manutenções das Splits**
+
+
+Retorna uma planilha Excel com histórico de manutenções de todas as Splits no campus.
+
+Endpoint: GET /api/relatorios/historico_descricao
+
+- Parâmetros: Nenhum
+
+- Response: 200 OK
+
+Response Body:
+``historico_descricao.xlsx``
+
+3. **Relatórios de Histórico de Últimas Manutenções das Splits**
+
+
+Retorna uma planilha Excel com histórico de últimas manutenções de todas as Splits no campus.
+
+Endpoint: GET /api/relatorios/ultimas_manu
+
+- Parâmetros: Nenhum
+
+- Response: 200 OK
+
+Response Body:
+``ultimas_manu.xlsx``
+
+4. **Relatórios de Datas de Todas as Últimas Manutenções das Splits**
+
+
+Retorna uma planilha Excel com histórico de últimas manutenções de todas as Splits no campus.
+
+Endpoint: GET /api/relatorios/datas_ultimas_manu
+
+- Parâmetros: Nenhum
+
+- Response: 200 OK
+
+Response Body:
+``datas_ultimas_manu.xlsx``
+-----------------------------------------------------------------------------------------------------
+
+> [!NOTE]
+> Essas planilhas foram criadas conforme os modelos já utilizados pela administração do campus.
+> Feitos com base nos modelos já em uso
+-----------------------------------------------------------------------------------------------------
 # Estrutura do projeto
 
 ````
@@ -573,10 +648,17 @@ gerenciaSplits
         |                              |__controllers (lidar com as requisições REST da API, camada de entrada)
         |                              |
         |                              |__dtos (Data Object Transfer, lidar com as transferências de dados das entidades)
+        |                              |                                     |
+        |                              |                                     |_____requests (DTOs recebidos de requests para a API)
+        |                              |                                     |
+        |                              |                                     |_____responses (DTOs enviados aos usuários da API, com finalidade de receberem apenas os dados necessários)
+        |                              |                                                |
+        |                              |                                                |_____reports (DTOs para lidar com relatórios excel)
+        |                              |                                                
         |                              |
         |                              |__exception (Excessões para mapear erros e respostas de requisições amigáveis aos usuários)
         |                              |
-        |                              |__infra (Lidar com as classes de infraestrutura da API, no momento apenas de exceptions)
+        |                              |__infra (Lidar com as classes de infraestrutura da API como exceptions e utilitários Excel)
         |                              |
         |                              |__mappers (Lidar com mudança de estrutura de objetos para entidades do banco de dados)
         |                              |
@@ -590,8 +672,8 @@ gerenciaSplits
         |                               |__GerenciaSplitsApplication (Aplicação SpringBoot)
         |
         |__resources
-                |__static(colocar oq sao)
-                |__templates(colocar oq sao)
+                |__static
+                |__templates
                  |
                  |__application.properties (Propriedades da aplicação Spring)
                  
@@ -613,6 +695,9 @@ gerenciaSplits
 
 * Visualizar as futuras manutenções dos splits
 
+
+* Gerar relatórios Excel 
+
 > [!NOTE]
 > Caso você crie um split, atualize a data da manutenção ou crie uma nova manutenção,
 > será automaticamente atualizado a data da próxima manutenção preventiva
@@ -626,7 +711,7 @@ Para dúvidas sobre implementação ou integração:
 
 
 - Github J.Vitor: https://github.com/JJaquesDs
-- Github Vitoria: (coloca seu github)
+- Github Vitoria: https://github.com/lindanowaczyk
 
 
 ### Reportar Problemas
