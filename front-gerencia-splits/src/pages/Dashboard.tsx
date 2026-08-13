@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Form, Spinner, Table, Row, Col, Card, InputGroup } from 'react-bootstrap';
+import { Form, Spinner, Table, Row, Col, Card, InputGroup, Dropdown } from 'react-bootstrap';
 import { futManService } from '../services/futManService';
 import { hisManService } from '../services/hisManService';
 import type { DashboardGeralResponse } from '../types/Manutencao';
+import { relatoriosService } from '../services/relatoriosService';
 
 function calcularStatus(dataString?: string) {
     if (!dataString) return 'NONE';
@@ -29,6 +30,7 @@ export function Dashboard() {
     const [tabelaGeral, setTabelaGeral] = useState<DashboardGeralResponse[]>([]);
     const [loading, setLoading] = useState(true);
     const [busca, setBusca] = useState('');
+    const [loadingExport, setLoadingExport] = useState(false);
 
     function carregarDashboard() {
         Promise.all([
@@ -113,6 +115,20 @@ export function Dashboard() {
             });
         });
     }, [tabelaGeral, busca]);
+
+    async function handleExportar(tipo: 'cadastro' | 'historico' | 'ultimas' | 'datas') {
+        try {
+            setLoadingExport(true);
+            if (tipo === 'cadastro') await relatoriosService.gerarCadastroSplits();
+            else if (tipo === 'historico') await relatoriosService.gerarHistoricoDescricao();
+            else if (tipo === 'ultimas') await relatoriosService.gerarUltimasManutencoes();
+            else if (tipo === 'datas') await relatoriosService.gerarDatasUltimasManutencoes();
+        } catch {
+            alert("Erro ao exportar a planilha. Verifique a conexão.");
+        } finally {
+            setLoadingExport(false);
+        }
+    }
 
     async function handleDeletar(id: string) {
         const confirmar = window.confirm("Tem certeza que deseja deletar este agendamento futuro?");
@@ -202,21 +218,72 @@ export function Dashboard() {
             </Row>
 
             {/* Barra de Pesquisa */}
-            <div className="search-container">
-                <label className="search-label">Pesquisar equipamento</label>
-                <InputGroup className="search-premium">
-                    <InputGroup.Text>
-                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                        </svg>
-                    </InputGroup.Text>
-                    <Form.Control
-                        type="search"
-                        placeholder="Buscar por RP, marca, local, data ou status..."
-                        value={busca}
-                        onChange={(e) => setBusca(e.target.value)}
-                    />
-                </InputGroup>
+            <div className="search-container d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3">
+                <div className="flex-grow-1">
+                    <label className="search-label">Pesquisar equipamento</label>
+                    <InputGroup className="search-premium">
+                        <InputGroup.Text>
+                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                            </svg>
+                        </InputGroup.Text>
+                        <Form.Control
+                            type="search"
+                            placeholder="Buscar por RP, marca, local, data ou status..."
+                            value={busca}
+                            onChange={(e) => setBusca(e.target.value)}
+                        />
+                    </InputGroup>
+                </div>
+
+                {/* Botão de Exportar para Excel */}
+                <Dropdown>
+                    <Dropdown.Toggle 
+                        disabled={loadingExport}
+                        style={{ backgroundColor: 'var(--status-green)', border: 'none', padding: '0.70rem 1.25rem', borderRadius: '8px', fontWeight: 600 }}
+                        className="d-flex align-items-center gap-2"
+                    >
+                        {loadingExport ? (
+                            <Spinner size="sm" animation="border" />
+                        ) : (
+                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M5.884 6.68a.5.5 0 1 0-.768.64L7.349 10l-2.233 2.68a.5.5 0 0 0 .768.64L8 10.781l2.116 2.54a.5.5 0 0 0 .768-.641L8.651 10l2.233-2.68a.5.5 0 0 0-.768-.64L8 9.219l-2.116-2.54z"/>
+                                <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                            </svg>
+                        )}
+                        Exportar Relatórios
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu className="shadow-sm border-0 mt-2">
+                        <Dropdown.Item onClick={() => handleExportar('cadastro')} className="py-2 d-flex align-items-center gap-2 dropdown-relatorio-item">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                            </svg>
+                            Cadastro de Splits
+                        </Dropdown.Item>
+                        
+                        <Dropdown.Item onClick={() => handleExportar('historico')} className="py-2 d-flex align-items-center gap-2 dropdown-relatorio-item">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 9.36l-7.19 7.19a2 2 0 01-2.83-2.83l7.19-7.19a6 6 0 019.36-7.94l-3.77 3.77z"></path>
+                            </svg>
+                            Histórico Completo
+                        </Dropdown.Item>
+                        
+                        <Dropdown.Item onClick={() => handleExportar('ultimas')} className="py-2 d-flex align-items-center gap-2 dropdown-relatorio-item">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Últimas Manutenções
+                        </Dropdown.Item>
+                        
+                        <Dropdown.Item onClick={() => handleExportar('datas')} className="py-2 d-flex align-items-center gap-2 dropdown-relatorio-item">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            Datas das Manutenções
+                        </Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
             </div>
 
             {/* Tabela Principal */}
