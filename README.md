@@ -23,6 +23,7 @@ O sistema na fase atual permite:
 
 ## Tecnologias utilizadas
 
+### Back-end
 * Java 25
 * Spring Boot
 * Spring Web
@@ -33,6 +34,17 @@ O sistema na fase atual permite:
 * OpenAPI / Swagger
 * Maven
 * Apache POI
+
+### Front-end
+* TypeScript 6.0
+* Node.js 24.19
+* React 19.2
+* Vite 8.2
+* Bootstrap 5.3
+* React-Bootstrap 2.10
+* React Router 7.11
+* Axios 1.19
+* CSS
 
 ## Configuração do banco de dados para acesso ao sistema
 
@@ -63,6 +75,26 @@ A aplicação ficará disponível em:
 http://localhost:8080
 ```
 
+### Acesso à Interface Web (Frontend)
+
+Para acessar e modificar a interface web localmente, é necessário ter o **Node.js** instalado em sua máquina.
+
+1. Abra o terminal e navegue até o diretório do frontend:
+```bash
+cd front-gerencia-splits
+```
+2. Instale as dependências do projeto:
+```
+npm install
+```
+3. Inicie o servidor de desenvolvimento do Vite:
+```
+npm run dev
+```
+A interface da aplicação ficará disponível em:
+```
+http://localhost:5173
+```
 ---
 
 # Swagger
@@ -102,10 +134,10 @@ POSTGRES_DB=SEU_BANCO
 Depois rode o comando:
 
 ````shell
-docker-commpose up
+docker-compose up
 ````
 
-seus containers irão ser criados e poderá acessar o em:
+seus containers serão criados e poderá acessar o em:
 
 - Frontend:
 [http://localhost:5174](http://localhost:5174)
@@ -669,7 +701,7 @@ Response Body:
 > Essas planilhas foram criadas conforme os modelos já utilizados pela administração do campus.
 > Feitos com base nos modelos já em uso
 -----------------------------------------------------------------------------------------------------
-# Estrutura do projeto
+# Estrutura do projeto backend
 
 ````
 gerenciaSplits
@@ -713,6 +745,28 @@ gerenciaSplits
                  
 ````
 
+# Estrutura do projeto frontend
+````
+front-gerencia-splits
+|__src
+    |
+    |__assets (Imagens, logos e ícones estáticos do sistema)
+    |
+    |__components (Componentes visuais reutilizáveis)
+    |
+    |__pages (Páginas renderizadas pelo React Router)
+    |
+    |__services (Integração com o Backend)
+    |
+    |__styles (Estilização global da aplicação)
+    |
+    |__types (Interfaces e tipagens estáticas do TypeScript mapeando as entidades da API)
+    |
+    |__App.tsx (Configuração global de rotas do sistema)
+    |
+    |__main.tsx (Ponto de entrada de renderização do React)
+````
+
 # Fluxo de utilização
 
 * Se não houver local para alocar um split, criar o local primeiro
@@ -745,7 +799,7 @@ Para dúvidas sobre implementação ou integração:
 
 
 - Github J.Vitor: https://github.com/JJaquesDs
-- Github Vitoria: https://github.com/lindanowaczyk
+- Github Linda Nowaczyk: https://github.com/lindanowaczyk
 
 
 ### Reportar Problemas
