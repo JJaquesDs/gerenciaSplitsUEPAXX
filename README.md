@@ -82,6 +82,40 @@ Ela permite mostrar uma interface amigável para manipulação do backend e test
 
 <img src="gerenciaSplits/images_for_docs/swagger-interface.jpg" width="400">
 
+-------------------------------------------------------------------------------------------------
+# Docker
+
+--------------------------------------------------------------------------------------------------
+
+Para subir e usar os containers docker, crie um arquivo na raiz do projeto (esse mesmo diretório) e copie os dados do arquivo
+[.env-example](.env-example) alterando para os dados das suas variáveis de ambiente
+
+````text
+POSTGRES_SERVER=localhost
+POSTGRES_PORT=5432
+POSTGRES_USER=SEU_USUÁRIO
+POSTGRES_PASSWORD=SUA_SENHA
+POSTGRES_DB=SEU_BANCO
+````
+
+
+Depois rode o comando:
+
+````shell
+docker-commpose up
+````
+
+seus containers irão ser criados e poderá acessar o em:
+
+- Frontend:
+[http://localhost:5174](http://localhost:5174)
+
+- Backend(Swagger):
+[http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+
+>[!NOTE]
+> Certifique-se de ter baixado o **Docker Desktop** e que o programa esteja rodando para esse passo funcionar
+-------------------------------------------------------------------------------------------------
 # Endpoints
 
 Nessa sessão será demonstrado os endpoints da API e sua
@@ -719,8 +753,9 @@ Encontrou um bug ou tem uma sugestão? Sinta-se livre para mandar um email para 
 
 -----------------------------------------------------------------------------------------------------------------------
 
-Versão da API: `0.1.1`
+Versão da API: `0.1.2`
 
-Data da última grande atualização: `13/08/2026`
+Data da última grande atualização: `18/08/2026`
 
  © Direitos Reservados
+ 
