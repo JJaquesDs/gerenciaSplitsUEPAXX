@@ -4,6 +4,8 @@ import { futManService } from '../services/futManService';
 import { hisManService } from '../services/hisManService';
 import type { DashboardGeralResponse } from '../types/Manutencao';
 import { relatoriosService } from '../services/relatoriosService';
+import { Client } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
 
 function calcularStatus(dataString?: string) {
     if (!dataString) return 'NONE';
@@ -76,7 +78,28 @@ export function Dashboard() {
     }
 
     useEffect(() => {
+        // 1. Carrega os dados normalmente na primeira vez
         carregarDashboard();
+
+        // 2. Configura a conexão com o túnel do Spring Boot
+        const stompClient = new Client({
+            webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
+            onConnect: () => {
+                // 3. Sintoniza no canal de atualizações
+                stompClient.subscribe('/topic/atualizacoes', () => {
+                    // 4. Se o Java gritar que teve mudança, recarrega a tabela silenciosamente
+                    carregarDashboard();
+                });
+            }
+        });
+
+        // Liga o túnel
+        stompClient.activate();
+
+        // Limpeza: desliga o túnel quando o usuário mudar de tela
+        return () => {
+            stompClient.deactivate();
+        };
     }, []);
 
     // Filtro inteligente => rp, marca, local, data (última manutenção e próxima manutenção) e status

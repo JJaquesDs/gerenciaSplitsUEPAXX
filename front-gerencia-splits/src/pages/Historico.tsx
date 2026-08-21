@@ -6,6 +6,8 @@ import { splitService } from '../services/splitService';
 import type { HisManResponse } from '../types/Manutencao';
 import type { SplitResponse } from '../types/Split';
 import type { TipoManu } from '../types/Enums';
+import { Client } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
 
 // O backend manda o rp e o local
 type HistoricoCompleto = HisManResponse & { rp?: string; local?: string };
@@ -31,7 +33,28 @@ export function Historico() {
     });
 
     useEffect(() => {
+        // 1. Carrega os dados normalmente na primeira vez
         carregarDados();
+
+        // 2. Configura a conexão com o túnel do Spring Boot
+        const stompClient = new Client({
+            webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
+            onConnect: () => {
+                // 3. Sintoniza no canal de atualizações
+                stompClient.subscribe('/topic/atualizacoes', () => {
+                    // 4. Se o Java gritar que teve mudança, recarrega a tabela silenciosamente
+                    carregarDados();
+                });
+            }
+        });
+
+        // Liga o túnel
+        stompClient.activate();
+
+        // Limpeza: desliga o túnel quando o usuário mudar de tela
+        return () => {
+            stompClient.deactivate();
+        };
     }, []);
 
     function carregarDados() {

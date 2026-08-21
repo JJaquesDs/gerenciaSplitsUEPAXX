@@ -8,6 +8,7 @@ import com.ladino.gerenciaSplits.models.HistoricoManu;
 import com.ladino.gerenciaSplits.models.Splits;
 import com.ladino.gerenciaSplits.repository.HistoricoManuRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,17 +28,22 @@ public class HisManService {
     //Injeção de dependência para usar Mapper
     private final HisManMapper hisManMapper;
 
+    // Injeção da ferramenta de envio de mensagens do WebSocket
+    private final SimpMessagingTemplate messagingTemplate;
+
     //Construtor
     public HisManService(
             HistoricoManuRepository hisManRepository,
             SplitsService splitsService,
             FutManService futManService,
-            HisManMapper hisManMapper
+            HisManMapper hisManMapper,
+            SimpMessagingTemplate messagingTemplate
     ) {
         this.hisManRepository = hisManRepository;
         this.splitsService = splitsService;
         this.futManService = futManService;
         this.hisManMapper = hisManMapper;
+        this.messagingTemplate = messagingTemplate;
     }
 
     public HisManResponse buscarHistoricoMan(UUID uuid){
@@ -78,6 +84,7 @@ public class HisManService {
         //empurrando a data da próxima manutenção conforme a manutenção feita
         futManService.atualizarProxMan(historicoManu.getSplit());
 
+        messagingTemplate.convertAndSend("/topic/atualizacoes", "MUDANCA_DETECTADA");
 
         //retornando apenas o mapper para responses(evita json infinitos)
         return hisManMapper.toResponse(historicoManu);
@@ -114,6 +121,7 @@ public class HisManService {
 
         hisManRepository.deleteById(uuid);
 
+        messagingTemplate.convertAndSend("/topic/atualizacoes", "MUDANCA_DETECTADA");
     }
 
 }
