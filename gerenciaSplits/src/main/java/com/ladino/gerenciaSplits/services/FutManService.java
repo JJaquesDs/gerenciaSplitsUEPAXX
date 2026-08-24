@@ -89,7 +89,8 @@ public class FutManService {
 
         futurasManuRepository.save(futurasManu);
         
-        messagingTemplate.convertAndSend("/topic/atualizacoes", "MUDANCA_DETECTADA"); // ???????????????????????????
+        // Enviar mensagem de atualização para o WebSocket (algo foi adicionado, atualizado ou excluído)
+        messagingTemplate.convertAndSend("/topic/atualizacoes", "MUDANCA_DETECTADA"); 
 
         futManMapper.toResponse(futurasManu);
     }

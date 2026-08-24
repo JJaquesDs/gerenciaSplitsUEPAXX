@@ -78,16 +78,16 @@ export function Dashboard() {
     }
 
     useEffect(() => {
-        // 1. Carrega os dados normalmente na primeira vez
+        // Carrega os dados normalmente na primeira vez
         carregarDashboard();
 
-        // 2. Configura a conexão com o túnel do Spring Boot
+        // Configura a conexão com o túnel do Spring Boot
         const stompClient = new Client({
             webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
             onConnect: () => {
-                // 3. Sintoniza no canal de atualizações
+                // Sintoniza no canal de atualizações
                 stompClient.subscribe('/topic/atualizacoes', () => {
-                    // 4. Se o Java gritar que teve mudança, recarrega a tabela silenciosamente
+                    // Se o Java gritar que teve mudança, recarrega a tabela silenciosamente
                     carregarDashboard();
                 });
             }
