@@ -7,6 +7,7 @@ import com.ladino.gerenciaSplits.exceptions.LocalNotFoundException;
 import com.ladino.gerenciaSplits.models.Local;
 import com.ladino.gerenciaSplits.repository.LocalRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,9 +18,13 @@ public class LocalService {
 
     //Injeção de dependência do repositório
     private final LocalRepository localRepository;
+    
+    // Injeção da ferramenta de envio de mensagens do WebSocket
+    private final SimpMessagingTemplate messagingTemplate;
 
-    public LocalService(LocalRepository localRepository) {
+    public LocalService(LocalRepository localRepository, SimpMessagingTemplate messagingTemplate) {
         this.localRepository = localRepository;
+        this.messagingTemplate = messagingTemplate;
     }
 
 
@@ -50,6 +55,8 @@ public class LocalService {
         Local local = new Local();
         local.setNomeLocal(nomeLocal);
 
+        messagingTemplate.convertAndSend("/topic/atualizacoes", "MUDANCA_DETECTADA");
+
         return localRepository.save(local);
 
     }
@@ -79,6 +86,8 @@ public class LocalService {
 
         local.setNomeLocal(localRequest.nomeLocal());
 
+        messagingTemplate.convertAndSend("/topic/atualizacoes", "MUDANCA_DETECTADA");
+
         return localRepository.save(local);
     }
 
@@ -90,5 +99,7 @@ public class LocalService {
 
 
         localRepository.deleteById(uuid);
+
+        messagingTemplate.convertAndSend("/topic/atualizacoes", "MUDANCA_DETECTADA");
     }
 }

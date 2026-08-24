@@ -6,6 +6,8 @@ import { localService } from '../services/localService';
 import type { SplitRequest, SplitResponse } from '../types/Split';
 import type { LocalResponse } from '../types/Local';
 import type { PeriodoManutencao } from '../types/Enums';
+import { Client } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
 
 export function Splits() {
     const [splits, setSplits] = useState<SplitResponse[]>([]);
@@ -33,7 +35,28 @@ export function Splits() {
     const [editFormData, setEditFormData] = useState<Partial<SplitRequest>>({});
 
     useEffect(() => {
+        // Carrega os dados normalmente na primeira vez
         carregarDados();
+
+        // Configura a conexão com o túnel do Spring Boot
+        const stompClient = new Client({
+            webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
+            onConnect: () => {
+                // Sintoniza no canal de atualizações
+                stompClient.subscribe('/topic/atualizacoes', () => {
+                    // Se o Java gritar que teve mudança, recarrega a tabela silenciosamente
+                    carregarDados();
+                });
+            }
+        });
+
+        // Liga o túnel
+        stompClient.activate();
+
+        // Limpeza: desliga o túnel quando o usuário mudar de tela
+        return () => {
+            stompClient.deactivate();
+        };
     }, []);
 
     async function carregarDados() {

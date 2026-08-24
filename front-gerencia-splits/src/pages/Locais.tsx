@@ -3,6 +3,8 @@ import type { SyntheticEvent } from 'react';
 import { Alert, Button, Card, Form, Spinner, Table, InputGroup } from 'react-bootstrap';
 import { localService } from '../services/localService';
 import type { LocalResponse } from '../types/Local';
+import { Client } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
 
 export function Locais() {
     const [locais, setLocais] = useState<LocalResponse[]>([]);
@@ -15,7 +17,28 @@ export function Locais() {
     const [busca, setBusca] = useState('');
 
     useEffect(() => {
+        // Carrega os dados normalmente na primeira vez
         carregarLocais();
+
+        // Configura a conexão com o túnel do Spring Boot
+        const stompClient = new Client({
+            webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
+            onConnect: () => {
+                // Sintoniza no canal de atualizações
+                stompClient.subscribe('/topic/atualizacoes', () => {
+                    // Se o Java gritar que teve mudança, recarrega a tabela silenciosamente
+                    carregarLocais();
+                });
+            }
+        });
+
+        // Liga o túnel
+        stompClient.activate();
+
+        // Limpeza: desliga o túnel quando o usuário mudar de tela
+        return () => {
+            stompClient.deactivate();
+        };
     }, []);
 
     function carregarLocais() {
