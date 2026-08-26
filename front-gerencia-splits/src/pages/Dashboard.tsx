@@ -6,6 +6,7 @@ import type { DashboardGeralResponse } from '../types/Manutencao';
 import { relatoriosService } from '../services/relatoriosService';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
+import { API_URL } from '../services/api';
 
 function calcularStatus(dataString?: string) {
     if (!dataString) return 'NONE';
@@ -83,7 +84,7 @@ export function Dashboard() {
 
         // Configura a conexão com o túnel do Spring Boot
         const stompClient = new Client({
-            webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
+            webSocketFactory: () => new SockJS(`${API_URL}/ws`),
             onConnect: () => {
                 // Sintoniza no canal de atualizações
                 stompClient.subscribe('/topic/atualizacoes', () => {

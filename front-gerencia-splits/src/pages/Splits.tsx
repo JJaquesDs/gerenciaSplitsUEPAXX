@@ -8,6 +8,7 @@ import type { LocalResponse } from '../types/Local';
 import type { PeriodoManutencao } from '../types/Enums';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
+import { API_URL } from '../services/api';
 
 export function Splits() {
     const [splits, setSplits] = useState<SplitResponse[]>([]);
@@ -40,7 +41,7 @@ export function Splits() {
 
         // Configura a conexão com o túnel do Spring Boot
         const stompClient = new Client({
-            webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
+            webSocketFactory: () => new SockJS(`${API_URL}/ws`),
             onConnect: () => {
                 // Sintoniza no canal de atualizações
                 stompClient.subscribe('/topic/atualizacoes', () => {
