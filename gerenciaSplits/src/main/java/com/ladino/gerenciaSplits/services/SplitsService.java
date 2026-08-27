@@ -8,6 +8,7 @@ import com.ladino.gerenciaSplits.models.Local;
 import com.ladino.gerenciaSplits.models.Splits;
 import com.ladino.gerenciaSplits.repository.SplitRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,17 +28,22 @@ public class SplitsService {
 
     private final SplitMapper splitMapper;
 
+    // Injeção da ferramenta de envio de mensagens do WebSocket
+    private final SimpMessagingTemplate messagingTemplate;
+
     //Construtor
     public SplitsService(
             SplitRepository splitRepository,
             LocalService localService,
             FutManService futManService,
-            SplitMapper splitMapper
+            SplitMapper splitMapper,
+            SimpMessagingTemplate messagingTemplate
     ) {
         this.splitRepository = splitRepository;
         this.localService = localService;
         this.splitMapper = splitMapper;
         this.futManService = futManService;
+        this.messagingTemplate = messagingTemplate;
     }
 
     // Buscar se um split existe
@@ -64,6 +70,8 @@ public class SplitsService {
 
         //Criando uma nova data de manutenção para o split que foi criado automaticamente
         futManService.atualizarProxMan(split);
+
+        messagingTemplate.convertAndSend("/topic/atualizacoes", "MUDANCA_DETECTADA");
 
         //Retornando apenas o mapper Response (evitar jsons infinitos)
         return splitMapper.toResponse(split);
@@ -115,6 +123,8 @@ public class SplitsService {
 
         splitRepository.save(split);
 
+        messagingTemplate.convertAndSend("/topic/atualizacoes", "MUDANCA_DETECTADA");
+
         return new SplitResponse(
                 split.getSplitId(),
                 split.getRp(),
@@ -133,6 +143,8 @@ public class SplitsService {
         Splits split = buscarSplitExistente(uuid);
 
         splitRepository.delete(split);
+
+        messagingTemplate.convertAndSend("/topic/atualizacoes", "MUDANCA_DETECTADA");
 
     }
 

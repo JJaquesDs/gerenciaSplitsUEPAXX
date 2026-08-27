@@ -9,6 +9,7 @@ import com.ladino.gerenciaSplits.models.Splits;
 import com.ladino.gerenciaSplits.repository.FuturasManuRepository;
 import com.ladino.gerenciaSplits.repository.HistoricoManuRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -26,15 +27,19 @@ public class FutManService {
     //Injeção de dependência para usar mapper
     private final FutManMapper futManMapper;
 
+    private final SimpMessagingTemplate messagingTemplate;
+
     //Construtor
     public FutManService(
             FuturasManuRepository futurasManuRepository,
             HistoricoManuRepository historicoManuRepository,
-            FutManMapper futManMapper
+            FutManMapper futManMapper,
+            SimpMessagingTemplate messagingTemplate
     ){
         this.futurasManuRepository = futurasManuRepository;
         this.historicoManuRepository = historicoManuRepository;
         this.futManMapper = futManMapper;
+        this.messagingTemplate = messagingTemplate;
     }
 
     /**
@@ -83,6 +88,9 @@ public class FutManService {
         futurasManu.setDataProxManu(proximaData);
 
         futurasManuRepository.save(futurasManu);
+        
+        // Enviar mensagem de atualização para o WebSocket (algo foi adicionado, atualizado ou excluído)
+        messagingTemplate.convertAndSend("/topic/atualizacoes", "MUDANCA_DETECTADA"); 
 
         futManMapper.toResponse(futurasManu);
     }
@@ -112,6 +120,8 @@ public class FutManService {
         FuturasManu futurasManu = buscarFutMan(uuid);
 
         futurasManuRepository.deleteById(uuid);
+
+        messagingTemplate.convertAndSend("/topic/atualizacoes", "MUDANCA_DETECTADA");
 
     }
 
