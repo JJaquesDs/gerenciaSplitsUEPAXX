@@ -5,7 +5,7 @@ import { localService } from '../services/localService';
 import type { LocalResponse } from '../types/Local';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
-import { API_URL } from '../services/api';
+import { WEBSOCKET_URL } from '../config/websocket';
 
 export function Locais() {
     const [locais, setLocais] = useState<LocalResponse[]>([]);
@@ -23,7 +23,7 @@ export function Locais() {
 
         // Configura a conexão com o túnel do Spring Boot
         const stompClient = new Client({
-            webSocketFactory: () => new SockJS(`${API_URL}/ws`),
+            webSocketFactory: () => new SockJS(WEBSOCKET_URL),
             onConnect: () => {
                 // Sintoniza no canal de atualizações
                 stompClient.subscribe('/topic/atualizacoes', () => {

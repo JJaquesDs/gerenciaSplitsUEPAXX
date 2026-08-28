@@ -6,4 +6,6 @@ WORKDIR /app
 
 COPY target/gerenciaSplits-0.0.1-SNAPSHOT.jar /app/gerenciaSplits.jar
 
-ENTRYPOINT ["java", "-jar", "gerenciaSplits.jar"]
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "-Dserver.address=0.0.0.0", "gerenciaSplits.jar"]

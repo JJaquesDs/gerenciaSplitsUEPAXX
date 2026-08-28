@@ -3,12 +3,8 @@ services:
     build:
       context: ./front-gerencia-splits
       dockerfile: Dockerfile
-      args:
-        VITE_API_URL: ${VITE_API_URL}
     ports:
-      - "5174:5174"
-    environment:
-      - VITE_API_URL=${VITE_API_URL}
+      - "5174:80"
     depends_on:
       - backend
     networks:
@@ -22,14 +18,12 @@ services:
       - "8080:8080"
     depends_on:
       - db
-
     env_file:
       - .env
-
     environment:
-        spring.datasource.url: jdbc:postgresql://db:5432/${POSTGRES_DB}
-        spring.datasource.username: ${POSTGRES_USER}
-        spring.datasource.password: ${POSTGRES_PASSWORD}
+      spring.datasource.url: jdbc:postgresql://db:5432/${POSTGRES_DB}
+      spring.datasource.username: ${POSTGRES_USER}
+      spring.datasource.password: ${POSTGRES_PASSWORD}
     networks:
       - public
 
@@ -37,19 +31,15 @@ services:
     image: postgres:17
     ports:
       - "5433:5432"
-
     env_file:
       - .env
-
     environment:
-        POSTGRES_USER: ${POSTGRES_USER}
-        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-        POSTGRES_DB: ${POSTGRES_DB}
-        PGDATA: /var/lib/postgresql/data/pgdata
-
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - app-db-data:/var/lib/postgresql/data/pgdata
-
     networks:
       - public
 

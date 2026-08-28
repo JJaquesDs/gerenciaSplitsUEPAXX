@@ -8,7 +8,8 @@ import type { SplitResponse } from '../types/Split';
 import type { TipoManu } from '../types/Enums';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
-import { API_URL } from '../services/api';
+import { WEBSOCKET_URL } from '../config/websocket';
+
 
 // O backend manda o rp e o local
 type HistoricoCompleto = HisManResponse & { rp?: string; local?: string };
@@ -39,7 +40,7 @@ export function Historico() {
 
         // Configura a conexão com o túnel do Spring Boot
         const stompClient = new Client({
-            webSocketFactory: () => new SockJS(`${API_URL}/ws`),
+            webSocketFactory: () => new SockJS(WEBSOCKET_URL),
             onConnect: () => {
                 // Sintoniza no canal de atualizações
                 stompClient.subscribe('/topic/atualizacoes', () => {
