@@ -5,7 +5,7 @@ import { hisManService } from '../services/hisManService';
 import type { DashboardGeralResponse } from '../types/Manutencao';
 import { relatoriosService } from '../services/relatoriosService';
 import { Client } from '@stomp/stompjs';
-import SockJS from 'sockjs-client';
+// import SockJS from 'sockjs-client';
 import { WEBSOCKET_URL } from '../config/websocket';
 
 function calcularStatus(dataString?: string) {
@@ -82,17 +82,36 @@ export function Dashboard() {
         // Carrega os dados normalmente na primeira vez
         carregarDashboard();
 
-        // Configura a conexão com o túnel do Spring Boot
+//         // Configura a conexão com o túnel do Spring Boot
+//         const stompClient = new Client({
+//             webSocketFactory: () => new SockJS(WEBSOCKET_URL),
+//             onConnect: () => {
+//                 // Sintoniza no canal de atualizações
+//                 stompClient.subscribe('/topic/atualizacoes', () => {
+//                     // Se o Java gritar que teve mudança, recarrega a tabela silenciosamente
+//                     carregarDashboard();
+//                 });
+//             }
+//         });
+
         const stompClient = new Client({
-            webSocketFactory: () => new SockJS(WEBSOCKET_URL),
+            brokerURL: WEBSOCKET_URL,
             onConnect: () => {
                 // Sintoniza no canal de atualizações
                 stompClient.subscribe('/topic/atualizacoes', () => {
-                    // Se o Java gritar que teve mudança, recarrega a tabela silenciosamente
+                // Se o Java gritar que teve mudança, recarrega a tabela silenciosamente
                     carregarDashboard();
+                        });
+                    },
+
+                    onStompError: (frame) => {
+                        console.error('Erro STOMP: ', frame)
+                    },
+
+                    onWebSocketError: (frame) => {
+                        console.error('Erro WebSocket: ', frame)
+                    }
                 });
-            }
-        });
 
         // Liga o túnel
         stompClient.activate();

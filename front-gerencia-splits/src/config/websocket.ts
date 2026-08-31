@@ -1,14 +1,18 @@
 // src/config/websocket.ts
 
 const getWebSocketUrl = () => {
-  // Detecta se está rodando em modo desenvolvimento (Vite)
+  // Desenvolvimento (Vite)
   if (import.meta.env.DEV) {
-    // Modo desenvolvimento - acessa direto o backend
-    return 'http://localhost:8080/ws';
+    // Conecta diretamente no Spring Boot
+    return 'ws://localhost:8080/ws';
   }
 
-  // Modo produção (Docker) - usa o proxy
-  return '/ws';
+  // Produção
+  const protocol = window.location.protocol === 'https:'
+    ? 'wss:'
+    : 'ws:';
+
+  return `${protocol}//${window.location.host}/ws`;
 };
 
 export const WEBSOCKET_URL = getWebSocketUrl();
