@@ -38,6 +38,9 @@ public class Splits {
     @OneToMany(mappedBy = "split")
     private List<HistoricoManu> historicoManu;
 
+    @OneToOne(mappedBy = "split", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private FuturasManu futurasManu;
+
     // Construtor sem Argumentos
     public Splits() {
     }
@@ -51,7 +54,8 @@ public class Splits {
             LocalDate dataEntrada,
             PeriodoManutencao periodoManMes,
             Local local,
-            List<HistoricoManu> historicoManu
+            List<HistoricoManu> historicoManu,
+            FuturasManu futurasManu
     ) {
         SplitId = splitId;
         this.rp = rp;
@@ -61,11 +65,28 @@ public class Splits {
         this.periodoManMes = periodoManMes;
         this.local = local;
         this.historicoManu = historicoManu;
+        this.futurasManu = futurasManu;
     }
 
     // Getters e Setters
     public UUID getSplitId() {
         return SplitId;
+    }
+
+    public List<HistoricoManu> getHistoricoManu() {
+        return historicoManu;
+    }
+
+    public void setHistoricoManu(List<HistoricoManu> historicoManu) {
+        this.historicoManu = historicoManu;
+    }
+
+    public FuturasManu getFuturasManu() {
+        return futurasManu;
+    }
+
+    public void setFuturasManu(FuturasManu futurasManu) {
+        this.futurasManu = futurasManu;
     }
 
     public void setSplitId(UUID splitId) {
