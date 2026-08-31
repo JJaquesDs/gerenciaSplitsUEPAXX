@@ -55,9 +55,11 @@ public class LocalService {
         Local local = new Local();
         local.setNomeLocal(nomeLocal);
 
+        Local localSalvo = localRepository.save(local);
+
         messagingTemplate.convertAndSend("/topic/atualizacoes", "MUDANCA_DETECTADA");
 
-        return localRepository.save(local);
+        return localSalvo;
 
     }
 
