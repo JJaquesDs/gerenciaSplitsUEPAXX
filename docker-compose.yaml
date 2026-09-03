@@ -4,9 +4,11 @@ services:
       context: ./front-gerencia-splits
       dockerfile: Dockerfile
     ports:
-      - "5174:80"
+      - "${FRONTEND_PORT_HOST}:${FRONTEND_PORT_CONTAINER}"
     depends_on:
       - backend
+    env_file:
+      - .env
     networks:
       - public
 
@@ -15,13 +17,13 @@ services:
       context: ./gerenciaSplits
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "${BACKEND_PORT_HOST}:${BACKEND_PORT_CONTAINER}"
     depends_on:
       - db
     env_file:
       - .env
     environment:
-      spring.datasource.url: jdbc:postgresql://db:5432/${POSTGRES_DB}
+      spring.datasource.url: jdbc:postgresql://db:${POSTGRES_PORT_CONTAINER}/${POSTGRES_DB}
       spring.datasource.username: ${POSTGRES_USER}
       spring.datasource.password: ${POSTGRES_PASSWORD}
     networks:
@@ -30,7 +32,7 @@ services:
   db:
     image: postgres:17
     ports:
-      - "5433:5432"
+      - "${POSTGRES_PORT_HOST}:${POSTGRES_PORT_CONTAINER}"
     env_file:
       - .env
     environment:

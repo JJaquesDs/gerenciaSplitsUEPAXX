@@ -101,9 +101,9 @@ http://localhost:5173
 
 A documentação da API pode ser acessada em:
 
-```
-http://localhost:8080/swagger-ui/index.html
-```
+
+[http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+
 
 ---
 
@@ -123,27 +123,78 @@ Para subir e usar os containers docker, crie um arquivo na raiz do projeto (esse
 [.env-example](.env-example) alterando para os dados das suas variáveis de ambiente
 
 ````text
+# ---------------------------------
+# Banco de dados
+# ---------------------------------
+
+
 POSTGRES_SERVER=localhost
-POSTGRES_PORT=5432
+POSTGRES_PORT_HOST=SUA_PORTA_HOST
+POSTGRES_PORT_CONTAINER=SUA_PORTA_NO_CONTAINER
 POSTGRES_USER=SEU_USUÁRIO
 POSTGRES_PASSWORD=SUA_SENHA
 POSTGRES_DB=SEU_BANCO
+
+
+# ---------------------------------
+# Backend
+# ---------------------------------
+BACKEND_PORT_HOST=SUA_PORTA_HOST
+BACKEND_PORT_CONTAINER=8080
+
+# ---------------------------------
+# Frontend
+# ---------------------------------
+
+FRONTEND_PORT_HOST=SUA_PORTA_HOST
+FRONTEND_PORT_CONTAINER=80
 ````
 
+Para o docker funcionar você deve fazer o arquivo **".jar"** da aplicação
 
-Depois rode o comando:
+Entre na raiz do backend, ex.:
+
+`C:..\gerenciaSplits\gerenciaSplits\ `
+
+E rode o seguinte comando:
+
+````bash
+mvn clean package
+````
+
+Um arquivo .jar será gerado em: [target](./target), ele será a base para criar o container
+
+Após essa etapa, voce pode fazer builder para construir os containers
+
+````bash
+docker-compose build --no-cache frontend backend db
+````
+
+E após o build subir o container
 
 ````shell
 docker-compose up
 ````
 
-seus containers serão criados e poderá acessar o em:
+>[!NOTE]
+> Se você não fizer esse processo, o container não criará e não será possível acessar a aplicação via docker
+
+Seus containers serão criados e poderá acessar o em:
 
 - Frontend:
-[http://localhost:5174](http://localhost:5174)
+
+`http://{IP_DO_SEU_HOST}:{IP_DO_FRONT_NO_CONTAINER}`
+
+Ex.: `http://192.168.1.2:5174`
 
 - Backend(Swagger):
-[http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+
+`http://{IP_DO_SEU_HOST}:{IP_DO_FRONT_NO_CONTAINER}`
+
+Ex.: `http://192.168.1.2:8080/swagger-ui/index.html`
+
+Ignore **chaves '{ }'** e separe **IP** e **Porta** por **ponto e vírgula ':'** na **URL**
+
 
 >[!NOTE]
 > Certifique-se de ter baixado o **Docker Desktop** e que o programa esteja rodando para esse passo funcionar

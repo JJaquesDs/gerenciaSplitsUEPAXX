@@ -7,7 +7,6 @@ import type { SplitRequest, SplitResponse } from '../types/Split';
 import type { LocalResponse } from '../types/Local';
 import type { PeriodoManutencao } from '../types/Enums';
 import { Client } from '@stomp/stompjs';
-// import SockJS from 'sockjs-client';
 import { WEBSOCKET_URL } from '../config/websocket';
 
 export function Splits() {
@@ -38,18 +37,6 @@ export function Splits() {
     useEffect(() => {
         // Carrega os dados normalmente na primeira vez
         carregarDados();
-
-//         // Configura a conexão com o túnel do Spring Boot
-//         const stompClient = new Client({
-//             webSocketFactory: () => new SockJS(WEBSOCKET_URL),
-//             onConnect: () => {
-//                 // Sintoniza no canal de atualizações
-//                 stompClient.subscribe('/topic/atualizacoes', () => {
-//                     // Se o Java gritar que teve mudança, recarrega a tabela silenciosamente
-//                     carregarDados();
-//                 });
-//             }
-//         });
 
         const stompClient = new Client({
             brokerURL: WEBSOCKET_URL,
