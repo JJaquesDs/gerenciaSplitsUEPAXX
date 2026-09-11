@@ -203,6 +203,29 @@ export function Historico() {
         }
     }
 
+    async function handleDeletar(uuid: string) {
+        const confirmar = window.confirm("Tem certeza que deseja deletar este registro de manutenção?");
+        if (!confirmar) return;
+
+        setErro('');
+        setSucesso('');
+
+        try {
+            setLoading(true);
+            await hisManService.deletar(uuid);
+            
+            setHistorico(prev => prev.filter(h => h.historicoManuId !== uuid));
+            
+            setSucesso("Registro de manutenção excluído com sucesso!");
+            setTimeout(() => setSucesso(''), 3000);
+            
+        } catch {
+            setErro("Erro ao deletar o registro de manutenção.");
+        } finally {
+            setLoading(false);
+        }
+    }
+
     function renderBadgeTipo(tipo: string) {
         switch (tipo) {
             case 'PREVENTIVA': return <span className="status-tag status-green">Preventiva</span>;
@@ -390,6 +413,17 @@ export function Historico() {
                                     >
                                         <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                        </svg>
+                                    </button>
+                                    <button 
+                                        className="btn-icon-danger" 
+                                        onClick={() => handleDeletar(hist.historicoManuId!)}
+                                        title="Excluir manutenção"
+                                        disabled={loading}
+                                        style={{background: 'transparent', border: 'none', color: 'var(--uepa-red)', padding: '0.25rem', transition: 'color 0.2s'}}
+                                    >
+                                        <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                         </svg>
                                     </button>
                                 </td>
