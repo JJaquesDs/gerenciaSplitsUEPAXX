@@ -17,6 +17,11 @@ export const hisManService = {
         return response.data
     },
 
+    atualizar: async (uuid:string, data: HisManRequest) => {
+        const response = await api.patch(`his_man/atualizar/${uuid}`, data);
+        return response.data;
+    },
+
     deletar: async (uuid: string): Promise<void> => {
         await api.delete(`his_man/deletar/${uuid}`)
     },

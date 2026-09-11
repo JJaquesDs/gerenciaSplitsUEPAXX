@@ -29,7 +29,7 @@ export interface HisUltimasManResponse {
 }
 
 export interface FutManResponse {
-    futurasManunId: string
+    futurasManuId: string
     dataProxManu: string
     rp: string
     local: string
@@ -41,5 +41,5 @@ export interface DashboardGeralResponse {
     local: string;
     ultimaData?: string;
     proximaData?: string;
-    futurasManunId?: string;
+    futurasManuId?: string;
 }
