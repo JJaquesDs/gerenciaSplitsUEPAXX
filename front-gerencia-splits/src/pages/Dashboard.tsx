@@ -173,20 +173,6 @@ export function Dashboard() {
         }
     }
 
-    async function handleDeletar(id: string) {
-        const confirmar = window.confirm("Tem certeza que deseja deletar este agendamento futuro?");
-        if (!confirmar) return;
-
-        try {
-            setLoading(true);
-            await futManService.deletar(id);
-            carregarDashboard(); 
-        } catch {
-            alert("Erro ao deletar o agendamento.");
-            setLoading(false);
-        }
-    }
-
     function renderStatusBadge(dataString?: string) {
         const status = calcularStatus(dataString);
         if (status === 'ATRASADA') return <span className="status-tag status-red">Atrasada</span>;
@@ -340,13 +326,12 @@ export function Dashboard() {
                             <th>Última Manutenção</th>
                             <th>Próxima Manutenção</th>
                             <th>Status</th>
-                            <th className="text-center">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         {loading && tabelaGeral.length === 0 && (
                             <tr>
-                                <td colSpan={7} className="text-center py-5">
+                                <td colSpan={6} className="text-center py-5">
                                     <Spinner size="sm" animation="border" className="me-2" style={{ color: 'var(--uepa-blue)' }} />
                                     Processando dados...
                                 </td>
@@ -355,7 +340,7 @@ export function Dashboard() {
 
                         {!loading && linhasFiltradas.length === 0 && (
                             <tr>
-                                <td colSpan={7} className="text-center py-5 text-muted">
+                                <td colSpan={6} className="text-center py-5 text-muted">
                                     {busca 
                                         ? 'Nenhum equipamento encontrado com base no seu filtro.' 
                                         : 'Nenhum equipamento registrado.'}
@@ -382,20 +367,6 @@ export function Dashboard() {
                                 </td>
 
                                 <td>{renderStatusBadge(linha.proximaData)}</td>
-
-                                <td className="text-center">
-                                    {linha.futurasManuId && (
-                                        <button 
-                                            className="btn-icon-danger" 
-                                            onClick={() => handleDeletar(linha.futurasManuId!)}
-                                            title="Excluir agendamento"
-                                        >
-                                            <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                            </svg>
-                                        </button>
-                                    )}
-                                </td>
                             </tr>
                         ))}
                     </tbody>
