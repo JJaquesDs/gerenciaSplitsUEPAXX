@@ -38,7 +38,7 @@ public class Splits {
     @OneToMany(mappedBy = "split")
     private List<HistoricoManu> historicoManu;
 
-    @OneToOne(mappedBy = "split", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToOne(mappedBy = "split", cascade = CascadeType.ALL, orphanRemoval = true)
     private FuturasManu futurasManu;
 
     // Construtor sem Argumentos

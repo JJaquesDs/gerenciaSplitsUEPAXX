@@ -7,6 +7,7 @@ import com.ladino.gerenciaSplits.mappers.SplitMapper;
 import com.ladino.gerenciaSplits.models.Local;
 import com.ladino.gerenciaSplits.models.Splits;
 import com.ladino.gerenciaSplits.repository.SplitRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
@@ -137,6 +138,7 @@ public class SplitsService {
     }
 
     //Delete
+    @Transactional
     public void deletarSplitPorId(UUID uuid){
 
         //Busca se split já existe (já lança a exception)

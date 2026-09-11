@@ -9,7 +9,7 @@ import java.util.UUID;
  * **/
 public record FutManResponse(
 
-        UUID futurasManunId,
+        UUID futurasManuId,
         LocalDate dataProxManu,
         String rp,
         String local

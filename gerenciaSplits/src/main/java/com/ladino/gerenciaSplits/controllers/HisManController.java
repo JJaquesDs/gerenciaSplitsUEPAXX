@@ -67,6 +67,22 @@ public class HisManController {
         return ResponseEntity.ok(hisManService.buscarHistoricoMan(uuid));
     }
 
+
+    @PatchMapping("atualizar/{uuid}")
+    @Operation(
+            summary = "Atualizar um histórico de manutenções por UUID",
+            description = "Rota para lidar com requisições PATH de atualizar histórico de manutenções"
+    )
+    public ResponseEntity<HisManResponse> atualizarHistoricoMan(
+            @PathVariable UUID uuid,
+            @RequestBody HisManRequest hisManRequest
+    ){
+        return ResponseEntity.ok(hisManService.atualizarHisManPorId(
+                uuid, hisManRequest
+        ));
+    }
+
+
     @DeleteMapping("/deletar/{uuid}")
     @Operation(
             summary = "Deletar históricos de manutenções por UUID",

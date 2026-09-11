@@ -5,8 +5,11 @@ import com.ladino.gerenciaSplits.dtos.responses.HisManResponse;
 import com.ladino.gerenciaSplits.exceptions.HisManNotFoundException;
 import com.ladino.gerenciaSplits.mappers.HisManMapper;
 import com.ladino.gerenciaSplits.models.HistoricoManu;
+import com.ladino.gerenciaSplits.models.Local;
 import com.ladino.gerenciaSplits.models.Splits;
 import com.ladino.gerenciaSplits.repository.HistoricoManuRepository;
+import org.apache.commons.math3.distribution.ChiSquaredDistribution;
+import org.apache.commons.math3.geometry.spherical.oned.ArcsSet;
 import org.springframework.stereotype.Service;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
@@ -46,6 +49,18 @@ public class HisManService {
         this.messagingTemplate = messagingTemplate;
     }
 
+    /**
+     * Método para buscar entidades para fazer alterações e não apenas retornar dados com DTO
+     * **/
+    public HistoricoManu buscarHisManEntidade(UUID uuid){
+        return hisManRepository.findById(uuid).orElseThrow(
+                () -> new HisManNotFoundException(uuid)
+        );
+    }
+
+    /**
+     * Método apenas para retornar dados (dto) de uma entidade (Não serve para alterações)
+     * **/
     public HisManResponse buscarHistoricoMan(UUID uuid){
 
         //Busca o split pelo id e se não encontrar lança exception
@@ -107,6 +122,30 @@ public class HisManService {
                 hisMan.getSplit().getRp(),
                 hisMan.getSplit().getLocal().getNomeLocal()
         )).toList();
+
+    }
+
+    // Atualizar
+    public HisManResponse atualizarHisManPorId(UUID uuid, HisManRequest hisManAtualizado){
+
+        HistoricoManu historicoManu = buscarHisManEntidade(uuid);
+
+        // Usando o mapper que trata campos nulos
+        hisManMapper.updateFromRequest(hisManAtualizado, historicoManu);
+
+
+        // Se o split for atualizado, ele busca no banco qual é o split e atualiza ele (se nao achar lança exception)
+        if (hisManAtualizado.splitId() != null){
+            Splits splits = splitsService.buscarSplitExistente(
+                    hisManAtualizado.splitId()
+            );
+
+            historicoManu.setSplit(splits);
+        }
+
+        HistoricoManu historicoNovo = hisManRepository.save(historicoManu);
+
+        return hisManMapper.toResponse(historicoManu);
 
     }
 

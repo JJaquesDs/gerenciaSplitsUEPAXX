@@ -56,14 +56,14 @@ export function Dashboard() {
                 if (mapaMesclado.has(fut.rp)) {
                     const linhaExistente = mapaMesclado.get(fut.rp)!;
                     linhaExistente.proximaData = fut.dataProxManu;
-                    linhaExistente.futurasManunId = fut.futurasManunId;
+                    linhaExistente.futurasManuId = fut.futurasManuId;
                 } else {
                     mapaMesclado.set(fut.rp, {
                         rp: fut.rp,
                         marca: '-', 
                         local: fut.local,
                         proximaData: fut.dataProxManu,
-                        futurasManunId: fut.futurasManunId
+                        futurasManuId: fut.futurasManuId
                     });
                 }
             });
@@ -384,10 +384,10 @@ export function Dashboard() {
                                 <td>{renderStatusBadge(linha.proximaData)}</td>
 
                                 <td className="text-center">
-                                    {linha.futurasManunId && (
+                                    {linha.futurasManuId && (
                                         <button 
                                             className="btn-icon-danger" 
-                                            onClick={() => handleDeletar(linha.futurasManunId!)}
+                                            onClick={() => handleDeletar(linha.futurasManuId!)}
                                             title="Excluir agendamento"
                                         >
                                             <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">

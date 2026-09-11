@@ -8,6 +8,7 @@ import com.ladino.gerenciaSplits.models.HistoricoManu;
 import com.ladino.gerenciaSplits.models.Splits;
 import com.ladino.gerenciaSplits.repository.FuturasManuRepository;
 import com.ladino.gerenciaSplits.repository.HistoricoManuRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
@@ -114,12 +115,23 @@ public class FutManService {
     /**
      * Deletar uma futura manutenção
      * **/
+    @Transactional
     public void deletarFutMan(UUID uuid){
 
         //Busca se a futura manutenção já existe, se não lança exception
         FuturasManu futurasManu = buscarFutMan(uuid);
 
-        futurasManuRepository.deleteById(uuid);
+        //futurasManuRepository.deleteById(uuid);
+
+        Splits split = futurasManu.getSplit();
+
+        //Remove o filho de dentro do pai na memória
+        if (split != null){
+            split.setSplitId(null);
+        }
+        // Como 'orphanRemoval = true' está ativo no Pai,
+        // o Hibernate vai entender que esse filho foi "órfão" e vai deletá-lo do banco sozinho!
+
 
         messagingTemplate.convertAndSend("/topic/atualizacoes", "MUDANCA_DETECTADA");
 
