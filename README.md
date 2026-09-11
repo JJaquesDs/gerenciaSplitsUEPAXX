@@ -586,7 +586,36 @@ Possíveis Erros:
 
 - `404 Not Found` - Histórico de manutenção não encontrado com o UUID fornecido
 ------------------------------------------------------------------------------------------------
-4. **Listar Todas as últimas manutenções**
+
+4. **Atualizar histórico de manutenção pelo uuid**
+   Atualiza o histórico de manutenção cadastrados no sistema pelo uuid.
+
+Endpoint: PATCH /his_man/atualizar/{uuid}
+
+- Parâmetros: uuid (obrigatório) - UUID do histórico de manutenção a ser atualizado
+  Exemplo: `PATCH /his_man/atualizar/3fa85f64-5717-4562-b3fc-2c963f66afa6`
+
+- Response: 200 OK
+
+Response Body:
+
+````json
+{
+  "dataManu": "2026-09-10",
+  "tipoManu": "INSTALACAO",
+  "tecnicoResponsavel": "Caio",
+  "servicoRealizado": "Instalação",
+  "observacoes": "=nenhuma",
+  "splitId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+}
+````
+Possíveis Erros:
+
+- `404 Not Found` - Histórico de manutenção não encontrado com o UUID fornecido
+- `404 Not Found` - Split não encontrado com o UUID fornecido
+------------------------------------------------------------------------------------------------
+
+5. **Listar Todas as últimas manutenções**
    Retorna uma lista com todos os históricos de últimas manutenções cadastrados no sistema.
 
 Endpoint: GET /his_man/ultimas
@@ -617,7 +646,7 @@ Response Body:
 ````
 
 ------------------------------------------------------------------------------------
-5. Deletar histórico de manutenção
+6. **Deletar histórico de manutenção**
    Remove um histórico de manutenção do sistema através do UUID.
 
 Endpoint: DELETE /his_man/deletar/{uuid}
