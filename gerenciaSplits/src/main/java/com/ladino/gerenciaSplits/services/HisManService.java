@@ -145,6 +145,8 @@ public class HisManService {
 
         HistoricoManu historicoNovo = hisManRepository.save(historicoManu);
 
+        messagingTemplate.convertAndSend("/topic/atualizacoes", "MUDANCA_DETECTADA");
+
         return hisManMapper.toResponse(historicoManu);
 
     }
