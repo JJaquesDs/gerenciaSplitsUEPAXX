@@ -4,6 +4,7 @@ import { Dashboard } from './pages/Dashboard'
 import { Historico } from './pages/Historico'
 import { Locais } from './pages/Locais'
 import { Splits } from './pages/Splits'
+import { Defeito } from './pages/Defeito'
 
 function App() {
     return (
@@ -19,6 +20,7 @@ function App() {
                     <Route path="locais" element={<Locais />} />
                     <Route path="splits" element={<Splits />} />
                     <Route path="historico" element={<Historico />} />
+                    <Route path="defeitos" element={<Defeito />} />
                     
                 </Route>
             </Routes>

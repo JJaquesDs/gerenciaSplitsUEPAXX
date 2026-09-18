@@ -25,6 +25,7 @@ export function Layout() {
                         <Link to="/locais" className={isActive('/locais')}>Locais</Link>
                         <Link to="/splits" className={isActive('/splits')}>Splits</Link>
                         <Link to="/historico" className={isActive('/historico')}>Histórico</Link>
+                        <Link to="/defeitos" className={isActive('/defeitos')}>Defeitos</Link>
                     </nav>
                 </div>
 
