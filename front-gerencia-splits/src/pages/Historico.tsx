@@ -291,6 +291,7 @@ export function Historico() {
                                     <option value="INSTALACAO">Instalação</option>
                                     <option value="DESINSTALACAO">Desinstalação</option>
                                     <option value="INSTALACAO_PREVENTIVA">Instal. + Preventiva</option>
+                                    
                                 </Form.Select>
                             </Form.Group>
                         </Row>
