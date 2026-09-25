@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-09-10T20:04:33-0300",
+    date = "2026-09-24T22:39:46-0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 22 (Oracle Corporation)"
 )
 @Component
@@ -25,15 +25,15 @@ public class FutManMapperImpl implements FutManMapper {
 
         String rp = null;
         String local = null;
+        UUID futurasManuId = null;
         LocalDate dataProxManu = null;
 
         rp = futurasManuSplitRp( futurasManu );
         local = futurasManuSplitLocalNomeLocal( futurasManu );
+        futurasManuId = futurasManu.getFuturasManuId();
         dataProxManu = futurasManu.getDataProxManu();
 
-        UUID futurasManunId = null;
-
-        FutManResponse futManResponse = new FutManResponse( futurasManunId, dataProxManu, rp, local );
+        FutManResponse futManResponse = new FutManResponse( futurasManuId, dataProxManu, rp, local );
 
         return futManResponse;
     }

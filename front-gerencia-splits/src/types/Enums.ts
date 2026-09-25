@@ -9,5 +9,6 @@ export type TipoManu =
     "INSTALACAO" |
     "DESINSTALACAO" |
     "CORRETIVA" |
+    "CORRETIVA_PREVENTIVA" |
     "PREVENTIVA" |
     "INSTALACAO_PREVENTIVA"

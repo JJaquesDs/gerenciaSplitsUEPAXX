@@ -43,17 +43,6 @@ export function Historico() {
         // Carrega os dados normalmente na primeira vez
         carregarDados();
 
-//         // Configura a conexão com o túnel do Spring Boot
-//         const stompClient = new Client({
-//             webSocketFactory: () => new SockJS(WEBSOCKET_URL),
-//             onConnect: () => {
-//                 // Sintoniza no canal de atualizações
-//                 stompClient.subscribe('/topic/atualizacoes', () => {
-//                     // Se o Java gritar que teve mudança, recarrega a tabela silenciosamente
-//                     carregarDados();
-//                 });
-//             }
-//         });
 
         const stompClient = new Client({
             brokerURL: WEBSOCKET_URL,
@@ -207,6 +196,7 @@ export function Historico() {
         switch (tipo) {
             case 'PREVENTIVA': return <span className="status-tag status-green">Preventiva</span>;
             case 'CORRETIVA': return <span className="status-tag status-red">Corretiva</span>;
+            case 'CORRETIVA_PREVENTIVA': return <span className="status-tag status-red">Corr. + Preventiva</span>;
             case 'INSTALACAO': return <span className="status-tag status-green">Instalação</span>;
             case 'DESINSTALACAO': return <span className="status-tag status-grey">Desinstalação</span>;
             case 'INSTALACAO_PREVENTIVA': return <span className="status-tag status-green">Instal. + Preventiva</span>;
@@ -265,6 +255,7 @@ export function Historico() {
                                 >
                                     <option value="PREVENTIVA">Preventiva</option>
                                     <option value="CORRETIVA">Corretiva</option>
+                                    <option value="CORRETIVA_PREVENTIVA">Corr. + Preventiva</option>
                                     <option value="INSTALACAO">Instalação</option>
                                     <option value="DESINSTALACAO">Desinstalação</option>
                                     <option value="INSTALACAO_PREVENTIVA">Instal. + Preventiva</option>
@@ -467,6 +458,7 @@ export function Historico() {
                                 >
                                     <option value="PREVENTIVA">Preventiva</option>
                                     <option value="CORRETIVA">Corretiva</option>
+                                    <option value="CORRETIVA_PREVENTIVA">Corr. + Preventiva</option>
                                     <option value="INSTALACAO">Instalação</option>
                                     <option value="DESINSTALACAO">Desinstalação</option>
                                     <option value="INSTALACAO_PREVENTIVA">Instal. + Preventiva</option>

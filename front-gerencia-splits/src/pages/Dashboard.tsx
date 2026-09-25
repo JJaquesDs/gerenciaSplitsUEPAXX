@@ -29,6 +29,59 @@ function calcularStatus(dataString?: string) {
     }
 }
 
+function calcularTempoDesdeUltimaManutencao(dataUltima?: string): string {
+    if (!dataUltima) return '-';
+
+    try {
+        const [ano, mes, dia] = dataUltima.split('-').map(Number);
+        const dataManutencao = new Date(ano, mes - 1, dia);
+        dataManutencao.setHours(0, 0, 0, 0);
+
+        const hoje = new Date();
+        hoje.setHours(0, 0, 0, 0);
+
+        // Se a data da manutenção for no futuro, retorna mensagem especial
+        if (dataManutencao > hoje) {
+            return 'Data futura';
+        }
+
+        // Calcula diferença em anos e meses
+        let anos = hoje.getFullYear() - dataManutencao.getFullYear();
+        let meses = hoje.getMonth() - dataManutencao.getMonth();
+        const dias = hoje.getDate() - dataManutencao.getDate();
+
+        // Ajusta se os dias forem negativos
+        if (dias < 0) {
+            meses--;
+        }
+
+        // Ajusta se os meses forem negativos
+        if (meses < 0) {
+            anos--;
+            meses += 12;
+        }
+
+        // Converte tudo para meses totais
+        const totalMeses = (anos * 12) + meses;
+
+        // Retorna formatado
+        if (totalMeses === 0) return 'Menos de 1 mês';
+        if (totalMeses === 1) return '1 mês';
+        if (totalMeses >= 12) {
+            const anosCompletos = Math.floor(totalMeses / 12);
+            const mesesRestantes = totalMeses % 12;
+            if (mesesRestantes === 0) {
+                return anosCompletos === 1 ? '1 ano' : `${anosCompletos} anos`;
+            }
+            return `${anosCompletos} ${anosCompletos === 1 ? 'ano' : 'anos'} e ${mesesRestantes} ${mesesRestantes === 1 ? 'mês' : 'meses'}`;
+        }
+        return `${totalMeses} meses`;
+    } catch (error) {
+        console.error('Erro ao calcular tempo:', error);
+        return '-';
+    }
+}
+
 export function Dashboard() {
     const [tabelaGeral, setTabelaGeral] = useState<DashboardGeralResponse[]>([]);
     const [loading, setLoading] = useState(true);
@@ -82,17 +135,7 @@ export function Dashboard() {
         // Carrega os dados normalmente na primeira vez
         carregarDashboard();
 
-//         // Configura a conexão com o túnel do Spring Boot
-//         const stompClient = new Client({
-//             webSocketFactory: () => new SockJS(WEBSOCKET_URL),
-//             onConnect: () => {
-//                 // Sintoniza no canal de atualizações
-//                 stompClient.subscribe('/topic/atualizacoes', () => {
-//                     // Se o Java gritar que teve mudança, recarrega a tabela silenciosamente
-//                     carregarDashboard();
-//                 });
-//             }
-//         });
+
 
         const stompClient = new Client({
             brokerURL: WEBSOCKET_URL,
@@ -326,6 +369,7 @@ export function Dashboard() {
                             <th>Última Manutenção</th>
                             <th>Próxima Manutenção</th>
                             <th>Status</th>
+                            <th>Tempo Decorrido</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -367,6 +411,10 @@ export function Dashboard() {
                                 </td>
 
                                 <td>{renderStatusBadge(linha.proximaData)}</td>
+
+                                <td className={linha.ultimaData ? '' : 'text-muted-custom'}>
+                                    {calcularTempoDesdeUltimaManutencao(linha.ultimaData)}
+                                </td>
                             </tr>
                         ))}
                     </tbody>

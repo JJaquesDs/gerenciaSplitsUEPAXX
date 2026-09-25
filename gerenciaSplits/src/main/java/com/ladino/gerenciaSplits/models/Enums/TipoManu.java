@@ -5,6 +5,8 @@ public enum TipoManu {
     INSTALACAO("Instalação"),
     DESINSTALACAO("Desinstalação"),
     CORRETIVA("Corretiva"),
+
+    CORRETIVA_PREVENTIVA("Corretiva/Preventiva"),
     PREVENTIVA("Preventiva"),
     INSTALACAO_PREVENTIVA("Instalação/Preventiva");
 

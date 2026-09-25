@@ -17,7 +17,7 @@ import java.util.UUID;
 @Tag(
         name = "Splits",
         description = "Rotas para lidar com requisições de Splits")
-public class SplitsController {
+public   class SplitsController {
     /**Classe que controla requisições de splits**/
 
 
