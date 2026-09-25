@@ -63,6 +63,13 @@ public class RestExceptionHandle extends ResponseEntityExceptionHandler {
         return constructorErrorResponse(HttpStatus.NOT_FOUND, exception.getMessage());
     }
 
+    @ExceptionHandler(DefeitoNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> defeitoNotFoundException(
+            DefeitoNotFoundException exception
+    ){
+        return constructorErrorResponse(HttpStatus.NOT_FOUND, exception.getMessage());
+    }
+
 
     //Local já existente - 409
     @ExceptionHandler(LocalJaExisteException.class)
